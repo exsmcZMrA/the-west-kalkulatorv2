@@ -87,6 +87,8 @@ html[data-icons="0"] .ico{display:none}
 .order{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;
   display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
 .order h1{margin:0;font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.ordermain{display:flex;align-items:flex-start;gap:14px;min-width:0}
+.ico.xl{width:38px;height:38px;margin-top:-1px}
 .order .meta{font-family:"Space Mono",monospace;font-size:11.5px;color:var(--dim);margin-top:4px}
 .stepper{display:flex;align-items:center;margin-top:14px;width:max-content;
   border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}
@@ -263,13 +265,16 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
   <main class="col">
     <p class="eyebrow">Munkalap</p>
     <div class="order">
-      <div>
+      <div class="ordermain">
+        <img class="ico xl" id="orderIco" alt="" decoding="async" onerror="this.style.display='none'">
+        <div>
         <h1 id="orderName">—</h1>
         <p class="meta" id="orderMeta"></p>
         <div class="stepper">
           <button id="qtyMinus" aria-label="Kevesebb">−</button>
           <input id="qty" value="1" inputmode="numeric" aria-label="Darabszám">
           <button id="qtyPlus" aria-label="Több">+</button>
+        </div>
         </div>
       </div>
       <div class="ring">
@@ -993,6 +998,8 @@ function renderPlan(){
   plan = compute(sel.recipe, sel.qty);
   $("orderName").textContent = r.n;
   $("orderMeta").textContent = `${profLabel(r.p)} · ${r.l}`;
+  const oi = $("orderIco"), f = ITEM_IMG[r.i];
+  if(f){ oi.src = IMG_BASE + f; oi.style.display = ""; } else { oi.removeAttribute("src"); oi.style.display = "none"; }
   $("qty").value = sel.qty;
   const arc = 2 * Math.PI * 38;
   $("ringArc").setAttribute("stroke-dashoffset", arc * (1 - plan.pct / 100));
