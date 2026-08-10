@@ -1,0 +1,51 @@
+# Tárgyikonok letöltése és commitolása — a GitHub gépén fut, nem a tiéden.
+# Indítás: a repó "Actions" fülén, bal oldalt ez a munkafolyamat, majd "Run workflow".
+name: Tárgyikonok letöltése
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  kepek:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repó letöltése
+        uses: actions/checkout@v4
+
+      - name: Képek letöltése
+        run: |
+          set -u
+          base="https://westzz.innogamescdn.com/images/items/yield"
+          mkdir -p kepek
+          ok=0; skip=0; fail=0; hibas=""
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            if [ -s "kepek/$f" ]; then
+              skip=$((skip+1)); continue
+            fi
+            if curl -fsSL --retry 3 --retry-delay 2 --max-time 30 \
+                 -o "kepek/$f" "$base/$f"; then
+              ok=$((ok+1))
+            else
+              rm -f "kepek/$f"
+              fail=$((fail+1)); hibas="$hibas $f"
+            fi
+          done < kepek-lista.txt
+          echo "Letöltve: $ok · Kihagyva: $skip · Sikertelen: $fail"
+          [ -n "$hibas" ] && echo "Nem sikerült:$hibas"
+          echo "Fájl a kepek/ mappában: $(ls -1 kepek | wc -l)"
+
+      - name: Commitolás
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add kepek
+          if git diff --cached --quiet; then
+            echo "Nincs új kép, nincs mit commitolni."
+          else
+            git commit -m "Tárgyikonok letöltése"
+            git push
+          fi
