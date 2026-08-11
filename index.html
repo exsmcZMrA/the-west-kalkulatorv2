@@ -287,7 +287,7 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
     <div class="chips" id="chips"></div>
     <div id="charBar" hidden></div>
     <label class="lvl" style="margin-bottom:8px" id="mineWrap" hidden><input type="checkbox" id="onlyMine" style="width:auto">
-      csak a saját karakterem</label>
+      <span id="mineTxt">csak a megtanult receptjeim</span></label>
     <label class="lvl" style="margin-bottom:8px"><input type="checkbox" id="onlyReady" style="width:auto">
       csak amit most tudok gyártani</label>
     <label class="lvl">Mesterségszintem <input type="number" id="lvl" min="0" step="1" placeholder="—"></label>
@@ -1371,13 +1371,13 @@ function renderRecipes(){
   const mine = char && $("onlyMine").checked;
   const list = RECIPES
     .filter(r => q ? r.n.toLowerCase().includes(q) : profIds(r.p).includes(sel.prof))
-    .filter(r => !mine || profIds(r.p).includes(char.prof))
+    .filter(r => !mine || (profIds(r.p).includes(char.prof) && !unlearned(r)))
     .filter(r => !ready || (canCraftNow(r) && !overLevel(r) && !unlearned(r)))
     .sort((a,b) => minLvl(a) - minLvl(b) || a.n.localeCompare(b.n,"hu"));
   $("recipeCount").textContent = list.length + " db";
-  if(!list.length && ready){
+  if(!list.length && (ready || mine)){
     $("recipeCount").textContent = "0 db";
-    $("rlist").innerHTML = `<p class="empty">Ebből a mesterségből most egyet sem tudsz legyártani — vagy hiányzik hozzávaló, vagy magasabb szint kell.</p>`;
+    $("rlist").innerHTML = `<p class="empty">Nincs a szűrésnek megfelelő recept.</p>`;
     return;
   }
   $("rlist").innerHTML = list.map(r => {
@@ -1415,8 +1415,11 @@ function renderChar(){
   bar.hidden = false; wrap.hidden = false;
   bar.className = "charbar";
   bar.innerHTML = `<span class="badge">${char.name.slice(0,2).toUpperCase()}</span>
-    <span><b>${char.name}</b><small>${profOf(char.prof)} · ${char.skill}. szint${
+    <span><b>${char.name}</b><small>${profOf(char.prof)} ${char.skill}${
       learned ? ` · ${learned.length} recept` : ""}</small></span>`;
+  const t = $("mineTxt");
+  if(t) t.textContent = learned ? "csak a megtanult receptjeim" : "csak a saját mesterségem";
+  $("onlyMine").disabled = false;
 }
 function syncLevel(){ $("lvl").value = levels[sel.prof] ?? ""; }
 
