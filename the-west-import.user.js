@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      1.2-teszt
+// @version      1.3-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -69,14 +69,14 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         return out;
     }
 
-    const POS_KEY = "mk-import-pos";
+    const POS_KEY = "mk-import-pos-teszt";
 
     function addButton() {
-        if (document.getElementById("mk-import-btn")) return;
+        if (document.getElementById("mk-import-btn-teszt")) return;
         const b = document.createElement("div");
-        b.id = "mk-import-btn";
-        b.textContent = "📦";
-        b.title = "Raktárkészlet küldése a mesterség-kalkulátorba";
+        b.id = "mk-import-btn-teszt";
+        b.textContent = "🧪";
+        b.title = "TESZT — raktár küldése a v2 kalkulátorba";
 
         let pos = { right: 2, top: 300 };
         try {
@@ -86,7 +86,7 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
 
         b.style.cssText = [
             "position:fixed", "z-index:99999",
-            "right:" + pos.right + "px", "top:" + pos.top + "px",
+            "right:" + pos.right + "px", "top:" + (pos.top + 80) + "px",
             "width:30px", "height:30px", "line-height:30px", "text-align:center",
             "background:#2f261d", "border:1px solid #e0a844", "border-radius:5px",
             "cursor:pointer", "font-size:16px", "user-select:none",
@@ -139,18 +139,44 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         return C.name + "|" + (C.professionId || 0) + "|" + (C.professionSkill || 0);
     }
 
-    /* megtanult receptek — csak azok, amiken ott a last_craft mező.
-       Ha más kiegészítő tölti fel a listát, ez üresen marad, és akkor nem küldünk semmit. */
-    function readLearned() {
+    /* ---- megtanult receptek folyamatos gyűjtése ----
+       A last_craft mezős adat a szervertől jön; más kiegészítők később felülírhatják
+       a listát. Ezért amint meglátjuk, eltesszük, és onnantól megmarad. */
+    const learnedSet = new Set();
+
+    function collectLearned() {
         const C = game().Crafting;
-        if (!C || !C.recipes) return null;
-        const out = [];
+        if (!C || !C.recipes) return;
         Object.keys(C.recipes).forEach(k => {
             const r = C.recipes[k];
             if (r && Object.prototype.hasOwnProperty.call(r, "last_craft") && r.craftitem)
-                out.push(r.craftitem / 1000);
+                learnedSet.add(r.craftitem / 1000);
         });
-        return out.length ? out : null;
+    }
+
+    function watchCrafting() {
+        /* az addRecipe hívásait is elkapjuk, így a legkorábbi állapotot látjuk */
+        const C = game().Crafting;
+        if (C && typeof C.addRecipe === "function" && !C.__mkWrapped) {
+            const orig = C.addRecipe;
+            C.addRecipe = function (r) {
+                try {
+                    if (r && Object.prototype.hasOwnProperty.call(r, "last_craft") && r.craftitem)
+                        learnedSet.add(r.craftitem / 1000);
+                } catch (e) { /* nem baj */ }
+                return orig.apply(this, arguments);
+            };
+            C.__mkWrapped = true;
+        }
+        collectLearned();
+    }
+    setInterval(watchCrafting, 500);
+
+    /* megtanult receptek — csak azok, amiken ott a last_craft mező.
+       Ha más kiegészítő tölti fel a listát, ez üresen marad, és akkor nem küldünk semmit. */
+    function readLearned() {
+        collectLearned();                       /* hátha most is látunk újat */
+        return learnedSet.size ? [...learnedSet] : null;
     }
 
     function sendInventory(b) {
