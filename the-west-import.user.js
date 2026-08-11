@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Mesterség-kalkulátor — raktár import
-// @namespace    the-west-kalkulator
-// @version      1.2
+// @name         Mesterség-kalkulátor — raktár import (TESZT)
+// @namespace    the-west-kalkulator-teszt
+// @version      1.2-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -28,7 +28,7 @@
    A kalkulátor címe. Csak akkor kell hozzányúlni, ha a repó neve vagy a
    GitHub Pages beállítása változik.
    ======================================================================= */
-const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymanaged/";
+const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
 
 (function () {
     "use strict";
