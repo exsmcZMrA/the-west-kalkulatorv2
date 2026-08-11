@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      1.3-teszt
+// @version      1.4-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -21,7 +21,7 @@
 // @match        https://*.the-west.se/game.php*
 // @grant        GM_setClipboard
 // @grant        GM_openInTab
-// @run-at       document-idle
+// @run-at       document-start
 // ==/UserScript==
 
 /* =======================================================================
@@ -48,7 +48,9 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
     }, 1000);
 
     function game() {
-        return (typeof unsafeWindow !== "undefined" && unsafeWindow.Bag) ? unsafeWindow : window;
+        const U = (typeof unsafeWindow !== "undefined") ? unsafeWindow : null;
+        if (U && (U.Bag || U.Crafting || U.Character)) return U;
+        return window;
     }
 
     /* a raktár teljes tartalma: azonosító/1000 : darabszám
@@ -72,6 +74,7 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
     const POS_KEY = "mk-import-pos-teszt";
 
     function addButton() {
+        if (!document.body) { setTimeout(addButton, 200); return; }
         if (document.getElementById("mk-import-btn-teszt")) return;
         const b = document.createElement("div");
         b.id = "mk-import-btn-teszt";
@@ -170,7 +173,10 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         }
         collectLearned();
     }
-    setInterval(watchCrafting, 500);
+    /* a lehető legkorábban kezdjük figyelni, hogy a last_craft mezős
+       eredeti listát még más kiegészítők előtt lássuk */
+    watchCrafting();
+    setInterval(watchCrafting, 250);
 
     /* megtanult receptek — csak azok, amiken ott a last_craft mező.
        Ha más kiegészítő tölti fel a listát, ez üresen marad, és akkor nem küldünk semmit. */
