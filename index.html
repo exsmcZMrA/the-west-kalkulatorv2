@@ -287,7 +287,7 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
     <div class="chips" id="chips"></div>
     <div id="charBar" hidden></div>
     <label class="lvl" style="margin-bottom:8px" id="mineWrap" hidden><input type="checkbox" id="onlyMine" style="width:auto">
-      <span id="mineTxt">csak a megtanult receptjeim</span></label>
+      <span id="mineTxt">csak amihez megvan a receptem</span></label>
     <label class="lvl" style="margin-bottom:8px"><input type="checkbox" id="onlyReady" style="width:auto">
       csak amit most tudok gyártani</label>
     <label class="lvl">Mesterségszintem <input type="number" id="lvl" min="0" step="1" placeholder="—"></label>
@@ -1360,7 +1360,11 @@ function overLevel(r){
 }
 
 /* nincs meg a recepted — csak akkor tudjuk, ha a játékból beolvastuk */
-const unlearned = r => !!learned && !learned.includes(r.i);
+/* a megtanultság csak arra a mesterségre értelmes, amit a karakter visz;
+   a több szakmához tartozó (esemény-) recepteket kihagyjuk */
+const unlearned = r => !!learned && !!char
+  && !Array.isArray(r.p) && r.p === char.prof
+  && !learned.includes(r.i);
 
 const canCraftNow = r => r.g.every(([id, q]) => (stock[id] || 0) >= q);
 
@@ -1371,7 +1375,7 @@ function renderRecipes(){
   const mine = char && $("onlyMine").checked;
   const list = RECIPES
     .filter(r => q ? r.n.toLowerCase().includes(q) : profIds(r.p).includes(sel.prof))
-    .filter(r => !mine || (profIds(r.p).includes(char.prof) && !unlearned(r)))
+    .filter(r => !mine || !unlearned(r))
     .filter(r => !ready || (canCraftNow(r) && !overLevel(r) && !unlearned(r)))
     .sort((a,b) => minLvl(a) - minLvl(b) || a.n.localeCompare(b.n,"hu"));
   $("recipeCount").textContent = list.length + " db";
@@ -1412,14 +1416,14 @@ function renderChips(){
 function renderChar(){
   const bar = $("charBar"), wrap = $("mineWrap");
   if(!char){ bar.hidden = true; wrap.hidden = true; return; }
-  bar.hidden = false; wrap.hidden = false;
+  bar.hidden = false; wrap.hidden = !learned;
   bar.className = "charbar";
   bar.innerHTML = `<span class="badge">${char.name.slice(0,2).toUpperCase()}</span>
     <span><b>${char.name}</b><small>${profOf(char.prof)} ${char.skill}${
       learned ? ` · ${learned.length} recept` : ""}</small></span>`;
   const t = $("mineTxt");
-  if(t) t.textContent = learned ? "csak a megtanult receptjeim" : "csak a saját mesterségem";
-  $("onlyMine").disabled = false;
+  if(t) t.textContent = "csak amihez megvan a receptem";
+
 }
 function syncLevel(){ $("lvl").value = levels[sel.prof] ?? ""; }
 
