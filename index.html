@@ -42,12 +42,6 @@ button,input{font-family:inherit;color:inherit;font-size:inherit}
 .icon{background:var(--bg);border:1px solid var(--line);border-radius:6px;width:36px;height:34px;
   cursor:pointer;line-height:1;font-size:15px;color:var(--dim)}
 .icon:hover{color:var(--brass);border-color:var(--brass)}
-.ico{width:22px;height:22px;flex:none;object-fit:contain;image-rendering:-webkit-optimize-contrast}
-.ico.lg{width:28px;height:28px}
-.ico.sm{width:18px;height:18px}
-html[data-icons="0"] .ico{display:none}
-.nmwrap{display:flex;align-items:center;gap:9px;min-width:0}
-.needmain{display:flex;align-items:center;gap:10px;min-width:0}
 .saved{font-family:"Space Mono",monospace;font-size:11px;color:var(--faint);opacity:0;transition:opacity .3s}
 
 /* ---------- váz ---------- */
@@ -70,15 +64,25 @@ html[data-icons="0"] .ico{display:none}
 .lvl input{width:70px;background:var(--bg);border:1px solid var(--line);border-radius:5px;
   padding:5px 7px;font-family:"Space Mono",monospace;text-align:center;font-size:13.5px}
 .rlist{list-style:none;margin:0;padding:0;max-height:calc(100vh - 300px);overflow:auto}
-.rlist button{width:100%;display:grid;grid-template-columns:8px 1fr auto;gap:10px;align-items:center;
-  background:none;border:0;border-radius:6px;padding:8px 10px;cursor:pointer;text-align:left}
+.rlist button{width:100%;display:grid;grid-template-columns:8px minmax(0,1fr);gap:9px;align-items:center;
+  background:none;border:0;border-radius:6px;padding:7px 4px 7px 10px;cursor:pointer;text-align:left}
 .rlist button:hover{background:var(--panel)}
 .rlist button[aria-current=true]{background:var(--raised);box-shadow:inset 2px 0 0 var(--brass)}
 .rlist button.locked{opacity:.42}
+.rlist button.unlearned{opacity:.55}
+.rlist button.unlearned .rname{font-style:italic}
+.charbar{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);
+  border-radius:6px;padding:8px 10px;margin-bottom:10px}
+.charbar b{font-size:14.5px;line-height:1.15}
+.charbar small{display:block;font-family:"Space Mono",monospace;font-size:10px;color:var(--dim)}
+.charbar .badge{width:26px;height:26px;border-radius:50%;background:var(--raised);
+  display:grid;place-items:center;font-family:"Space Mono",monospace;font-size:11px;color:var(--brass);
+  border:1px solid var(--line);flex:0 0 auto}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--line)}
 .dot.ready{background:var(--green)} .dot.close{background:var(--brass)}
-.rname{font-size:14.5px;line-height:1.25}
-.rname small{display:block;font-family:"Space Mono",monospace;font-size:10px;color:var(--dim)}
+.rname{font-size:14.5px;line-height:1.2;min-width:0}
+.rlist .nmwrap{min-width:0;flex:1 1 auto}
+.rname small{display:block;font-family:"Space Mono",monospace;font-size:10px;color:var(--dim);margin-top:1px}
 .rlvl{font-family:"Space Mono",monospace;font-size:11px;color:var(--dim)}
 .legend{font-size:12px;color:var(--dim);margin-top:14px;line-height:1.7}
 .legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px}
@@ -87,8 +91,6 @@ html[data-icons="0"] .ico{display:none}
 .order{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;
   display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
 .order h1{margin:0;font-size:25px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
-.ordermain{display:flex;align-items:flex-start;gap:14px;min-width:0}
-.ico.xl{width:38px;height:38px;margin-top:-1px}
 .order .meta{font-family:"Space Mono",monospace;font-size:11.5px;color:var(--dim);margin-top:4px}
 .stepper{display:flex;align-items:center;margin-top:14px;width:max-content;
   border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}
@@ -112,6 +114,35 @@ html[data-icons="0"] .ico{display:none}
 .step.final{border-left-color:var(--ink)}
 .step-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .step-n{font-family:"Space Mono",monospace;font-size:11px;color:var(--dim);min-width:20px}
+.ico{width:22px;height:22px;object-fit:contain;flex:0 0 auto;vertical-align:middle}
+.ico.sm{width:18px;height:18px}
+.ico.lg{width:28px;height:28px}
+.ico.xl{width:38px;height:38px}
+html[data-icons="0"] .ico{display:none}
+.nmwrap{display:flex;align-items:center;gap:8px;min-width:0}
+select.done-btn{-webkit-appearance:none;appearance:none;width:auto;
+  padding:4px 26px 4px 10px;font-family:inherit;line-height:1.35;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),
+                   linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+select.done-btn:hover{border-color:var(--brass);color:var(--brass)}
+.done-btn{background:var(--bg);border:1px solid var(--line);color:var(--dim);border-radius:5px;
+  padding:4px 10px;font-size:12px;cursor:pointer;margin-left:8px;white-space:nowrap}
+.done-btn:hover{border-color:var(--green);color:var(--green)}
+.done-btn[disabled]{opacity:.35;cursor:not-allowed}
+.done-btn:hover[disabled]{border-color:var(--line);color:var(--dim)}
+.lock{font-family:"Space Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brass);border:1px solid var(--brass);border-radius:20px;padding:2px 8px;opacity:.85}
+/* a visszakereső ablak sorai */
+.trow{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;
+  padding:7px 0;border-bottom:1px dotted var(--line)}
+.tname{font-size:15.5px;font-weight:600;line-height:1.2;min-width:0;color:var(--ink)}
+.tname small{display:block;font-family:"Space Mono",monospace;font-size:10px;
+  font-weight:400;color:var(--dim)}
+.excl{display:flex;align-items:center;gap:7px;margin-top:10px;font-size:13px;color:var(--dim);cursor:pointer}
+.excl input{width:auto;cursor:pointer}
+.needmain{display:flex;align-items:center;gap:10px;min-width:0}
 .step-title{font-size:16.5px;font-weight:600}
 .step-count{font-family:"Space Mono",monospace;font-size:12.5px;color:var(--brass);margin-left:auto}
 .step.done .step-count{color:var(--green)}
@@ -244,7 +275,8 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
     <button role="tab" id="tabCalc" aria-selected="true">Számolás</button>
     <button role="tab" id="tabStock" aria-selected="false">Raktár</button>
   </div>
-  <button class="icon" id="icoBtn" title="Tárgyikonok ki- és bekapcsolása" aria-label="Tárgyikonok ki- és bekapcsolása">▣</button>
+  <button class="icon" id="undo" title="Utolsó raktárművelet visszavonása" aria-label="Visszavonás" style="opacity:.35">↶</button>
+  <button class="icon" id="icons" title="Ikonok ki- és bekapcsolása" aria-label="Ikonok ki- és bekapcsolása">🖼</button>
   <button class="icon" id="theme" title="Világos / sötét mód" aria-label="Világos / sötét mód">☾</button>
 </div>
 
@@ -253,28 +285,36 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
     <p class="eyebrow">Recept <span id="recipeCount"></span></p>
     <input class="search" id="search" placeholder="Keresés név szerint…" aria-label="Recept keresése">
     <div class="chips" id="chips"></div>
+    <div id="charBar" hidden></div>
+    <label class="lvl" style="margin-bottom:8px" id="mineWrap" hidden><input type="checkbox" id="onlyMine" style="width:auto">
+      csak a saját karakterem</label>
+    <label class="lvl" style="margin-bottom:8px"><input type="checkbox" id="onlyReady" style="width:auto">
+      csak amit most tudok gyártani</label>
     <label class="lvl">Mesterségszintem <input type="number" id="lvl" min="0" step="1" placeholder="—"></label>
     <ul class="rlist" id="rlist"></ul>
     <p class="legend">
       <i style="background:var(--green)"></i>Most legyártható a készletedből<br>
       <i style="background:var(--brass)"></i>Hiányzik hozzá valami<br>
-      <i style="background:var(--line)"></i>Magasabb szint kell
+      <i style="background:var(--line)"></i>Magasabb szint kell, vagy nincs meg a recepted
     </p>
   </aside>
 
   <main class="col">
     <p class="eyebrow">Munkalap</p>
     <div class="order">
-      <div class="ordermain">
-        <img class="ico xl" id="orderIco" alt="" decoding="async" onerror="this.style.display='none'">
+      <div style="min-width:0">
         <div>
-        <h1 id="orderName">—</h1>
-        <p class="meta" id="orderMeta"></p>
-        <div class="stepper">
-          <button id="qtyMinus" aria-label="Kevesebb">−</button>
-          <input id="qty" value="1" inputmode="numeric" aria-label="Darabszám">
-          <button id="qtyPlus" aria-label="Több">+</button>
-        </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <img id="orderIco" class="ico xl" alt="" hidden>
+            <h1 id="orderName">—</h1>
+          </div>
+          <p class="meta" id="orderMeta"></p>
+          <div class="stepper">
+            <button id="qtyMinus" aria-label="Kevesebb">−</button>
+            <input id="qty" value="1" inputmode="numeric" aria-label="Darabszám">
+            <button id="qtyPlus" aria-label="Több">+</button>
+          </div>
+          <label class="excl"><input type="checkbox" id="excl" checked><span id="exclTxt"></span></label>
         </div>
       </div>
       <div class="ring">
@@ -287,10 +327,12 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
       </div>
     </div>
 
-    <div class="seg" role="tablist" id="seg">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div class="seg" role="tablist" id="seg">
       <button role="tab" data-mode="tree" aria-selected="true">Robbantott ábra</button>
       <button role="tab" data-mode="all" aria-selected="false">Lépéskártyák</button>
       <button role="tab" data-mode="raw" aria-selected="false">Csak alapanyag</button>
+      </div>
     </div>
 
     <ul class="steps" id="steps"></ul>
@@ -307,18 +349,66 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
 <section id="stockView" hidden>
   <p class="eyebrow">Teljes raktár <span id="stockMeta"></span></p>
   <p style="color:var(--dim);font-size:13.5px;margin:0">Minden tétel szerepel itt, ami bármelyik receptben előfordul — alapanyagok és más mesterségek termékei is. Kereséssel bármit felvehetsz, akkor is, ha épp egyik recepthez sem tartozik.</p>
-  <div class="stockbar">
+  <div class="stockbar" style="grid-template-columns:1fr auto auto auto">
     <input class="search" type="search" id="stockSearch" placeholder="Keresés név szerint — így vehetsz fel új tételt…">
     <label><input type="checkbox" id="onlyOwned" checked> csak amiből van</label>
+    <button class="icon" id="openImp" style="width:auto;padding:0 14px" title="Készlet beolvasása szövegből">Importálás</button>
     <button class="icon" id="stockClear" style="width:auto;padding:0 14px" title="Teljes raktár nullázása">Mindent nulláz</button>
   </div>
   <div id="stockGroups"></div>
 </section>
 
 <footer>
-  Receptek és nevek: tw-calc.net · A raktárad ebben a böngészőben marad meg.
+  Receptek és nevek: a játék saját adatából · A raktárad ebben a böngészőben marad meg.
   <button id="openData">Mentés fájlba vagy visszatöltés</button>
 </footer>
+
+<dialog id="useDlg">
+  <h3 id="useTitle">Hol használható?</h3>
+  <p id="useSub"></p>
+  <div id="useList" style="max-height:50vh;overflow:auto"></div>
+  <div class="drow"><button id="useClose">Bezárás</button></div>
+</dialog>
+
+<dialog id="impDlg">
+  <h3>Raktár beolvasása</h3>
+  <p><b>A legegyszerűbb út:</b> nyisd meg a tw-calc raktáradat, nyomj <span class="mono">Ctrl+U</span>-t
+  (oldal forrása), ott <span class="mono">Ctrl+A</span> és <span class="mono">Ctrl+C</span>, majd illeszd be ide.
+  A darabszámokat magától kiolvassa. Emellett ezeket is felismeri:
+  <span class="mono">48 [item=702000]</span>, <span class="mono">Dohánylevél 48</span>,
+  <span class="mono">48 Dohánylevél</span>, tabulátoros lista, JSON. Amit nem ért, azt kihagyja.</p>
+  <div style="border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-bottom:12px">
+    <b style="font-size:14.5px">Egy kattintással, a játékból</b>
+    <p style="margin:6px 0 8px">Húzd ezt a gombot a könyvjelzősávodra, majd a <b>futó játékablakban</b> kattints rá.
+    A raktárad a vágólapra kerül — utána itt elég a <b>Beolvasás vágólapról</b> gomb.</p>
+    <a id="bmLink" href="#" style="display:inline-block;background:var(--raised);border:1px solid var(--brass);
+       color:var(--brass);border-radius:6px;padding:7px 14px;text-decoration:none;font-size:13.5px"
+       onclick="return false">📦 Raktár → kalkulátor</a>
+    <p style="margin:8px 0 0;font-size:12.5px">Ha a könyvjelzősáv nem látszik: <span class="mono">Ctrl+Shift+B</span>.</p>
+    <hr style="border:0;border-top:1px solid var(--line);margin:12px 0">
+    <b style="font-size:14.5px">Vagy gomb magában a játékban</b>
+    <p style="margin:6px 0 8px">Ehhez kell a <a href="https://www.tampermonkey.net/" target="_blank" rel="noopener"
+      style="color:var(--brass)">Tampermonkey</a> bővítmény. Telepítés után a játék bal alsó sarkában megjelenik
+      egy gomb — egy kattintás, és a kalkulátor máris a friss készlettel nyílik meg.</p>
+    <a id="usLink" href="the-west-import.user.js" target="_blank" rel="noopener"
+       style="display:inline-block;background:var(--raised);border:1px solid var(--line);
+       color:var(--ink);border-radius:6px;padding:7px 14px;text-decoration:none;font-size:13.5px">
+       ⬇ Játékbeli gomb telepítése</a>
+  </div>
+  <textarea id="impText" spellcheck="false" placeholder="Ide illeszd be…"></textarea>
+  <div class="drow">
+    <label style="font-size:13px;color:var(--dim)"><input type="radio" name="impMode" value="replace" checked> felülírja a készletet</label>
+    <label style="font-size:13px;color:var(--dim)"><input type="radio" name="impMode" value="add"> hozzáadja a meglévőhöz</label>
+  </div>
+  <div id="impPreview"></div>
+  <div class="drow">
+    <button id="impPaste">Beolvasás vágólapról</button>
+    <button id="impCheck">Ellenőrzés</button>
+    <button id="impApply" disabled>Beolvasás</button>
+    <button id="impClose">Bezárás</button>
+    <span class="msg" id="impMsg"></span>
+  </div>
+</dialog>
 
 <dialog id="dataDlg">
   <h3>Adatok mentése és visszatöltése</h3>
@@ -334,7 +424,7 @@ dialog textarea{width:100%;min-height:180px;background:var(--bg);color:var(--ink
 
 <script>
 /* ======================================================================
-   Receptszerkezet és nevek: tw-calc.net (RecipeBook + ItemManager) · Ikonok: kepek/
+   Receptszerkezet: tw-db.info (craft=1..4) · Nevek: The-West wiki HU
    ====================================================================== */
 const PROFS = [
   { id:1, name:"Tábori szakács" },
@@ -500,136 +590,385 @@ const BASE_NAMES = {
 "52975000":"Rókafarok"
 };
 
-const ITEM_IMG = {
-  "700000":"ham.png","701000":"cereals.png","702000":"tabacco.png","703000":"sugar.png",
-  "704000":"cotton.png","705000":"trout.png","706000":"berrys.png","707000":"shearings.png",
-  "708000":"copper_pyrites.png","709000":"turkey.png","710000":"beef.png","711000":"planks.png",
-  "712000":"leather.png","714000":"beaver.png","715000":"fabric.png","716000":"stone.png",
-  "717000":"grund.png","718000":"coyote.png","719000":"cigar.png","720000":"gems.png",
-  "721000":"coal.png","722000":"meal.png","724000":"buffalo.png","725000":"silver.png",
-  "728000":"watch.png","733000":"packet.png","737000":"dynamite.png","739000":"fence.png",
-  "740000":"horn.png","741000":"pitcher.png","742000":"saw.png","743000":"poster.png",
-  "744000":"newspaper.png","745000":"flour.png","746000":"beans.png","747000":"hammer.png",
-  "748000":"corn.png","749000":"rope.png","751000":"pipe.png","752000":"oil.png",
-  "754000":"horseshoe.png","756000":"toolbox.png","757000":"feather.png",
-  "761000":"sledgehammer.png","763000":"wolf.png","764000":"shackle.png","765000":"sickle.png",
-  "766000":"water.png","767000":"string.png","771000":"trap.png","778000":"cooking_pot.png",
-  "779000":"post_horn.png","782000":"angle.png","784000":"nails.png","787000":"saddle.png",
-  "789000":"coin.png","790000":"iron.png","791000":"orange.png","792000":"tequila.png",
-  "793000":"tomato.png","794000":"potion.png","795000":"peg.png","797000":"pitchfork.png",
-  "1708000":"whiskey.png","1791000":"golddust.png","1807000":"sock.png","1808000":"potatoe.png",
-  "1809000":"hay.png","1810000":"pumpkin.png","1811000":"blueberries.png","1812000":"pit.png",
-  "1813000":"eagle_feather.png","1814000":"lotus.png","1815000":"crabmeat.png",
-  "1816000":"chalk.png","1818000":"sulfurstone.png","1820000":"snakehide.png",
-  "1821000":"salpetersalt.png","1822000":"cigaretts.png","1824000":"cougar_hide.png",
-  "1825000":"indigo.png","1826000":"rum.png","1827000":"lead.png","1832000":"metall_chip.png",
-  "1833000":"death_warrant.png","1834000":"peaceflower.png","1835000":"rose.png",
-  "1855000":"charcoal.png","1856000":"waterjar.png","1857000":"fieldbottle.png",
-  "1858000":"workingknife.png","1859000":"cookingpan.png","1860000":"cuttingwood.png",
-  "1861000":"flint.png","1862000":"cornflour.png","1863000":"beansandbacon.png",
-  "1864000":"marmelade.png","1865000":"mash.png","1866000":"dough.png",
-  "1867000":"seasonedsteak.png","1868000":"licor.png","1869000":"cake.png",
-  "1870000":"fishfond.png","1871000":"grilled_turkey.png","1872000":"fishsoup.png",
-  "1873000":"veggiepun.png","1874000":"meatloaf.png","1875000":"fishonastick.png",
-  "1876000":"parfumsmoke.png","1877000":"sauce.png","1878000":"paperfish.png",
-  "1879000":"gentlemendinner.png","1880000":"gum.png","1881000":"sulfur.png",
-  "1882000":"pipecleaner.png","1883000":"stomach.png","1884000":"sulfuracid.png",
-  "1885000":"ink.png","1886000":"petroleum.png","1887000":"fetish.png","1888000":"destillate.png",
-  "1889000":"firewater.png","1890000":"tea.png","1891000":"chewtabaco.png",
-  "1892000":"fruitlicor.png","1893000":"battery.png","1894000":"lye.png","1895000":"herbbrew.png",
-  "1896000":"rec_paper.png","1897000":"mathdraw.png","1898000":"rosewater.png",
-  "1899000":"hotiron.png","1900000":"bajonett.png","1901000":"weightstone.png",
-  "1902000":"steel.png","1903000":"liquid_lead.png","1904000":"forge.png",
-  "1905000":"lead_figure.png","1906000":"hot_marbel.png","1907000":"rivets.png",
-  "1908000":"handprotection.png","1909000":"coolingpackage.png","1910000":"weaponchain.png",
-  "1911000":"weapon_handle.png","1912000":"revolverform.png","1913000":"steelblade.png",
-  "1914000":"weapon_custom.png","1915000":"druse.png","1916000":"polishstone.png",
-  "1917000":"leatherband.png","1918000":"horseshoe_equip.png","1919000":"powerfood.png",
-  "1920000":"naked_saddle.png","1921000":"fillmaterial.png","1922000":"leatherskin.png",
-  "1923000":"branding_iron.png","1924000":"notworking_compass.png","1925000":"ironstep.png",
-  "1926000":"spores.png","1927000":"harnish.png","1928000":"fieldcamp.png",
-  "1929000":"horse_cloth.png","1930000":"custom_leather.png","1931000":"charriot_piece.png",
-  "1932000":"wagon_wheel.png","1933000":"aimwater.png","1934000":"gem_knob.png",
-  "1937000":"travelbag.png","1938000":"sharpweapon.png","1939000":"filtercigaretts.png",
-  "1940000":"cake_piece.png","1941000":"tomato_mash.png","1942000":"tomato_sauce.png",
-  "1943000":"baked_beans.png","1944000":"raw_pyrit.png","1945000":"pyritsun.png",
-  "1946000":"pyrit_amulett.png","1947000":"graphit.png","1948000":"graphitpulver.png",
-  "1949000":"graphit_glue.png","1950000":"workedleather.png","1951000":"leathersac.png",
-  "1952000":"foodsac.png","1980000":"dried_meat.png","1981000":"gulash.png",
-  "1982000":"spare_ribs.png","1983000":"snake_oil.png","1984000":"hair_tonic.png",
-  "1985000":"fine_spirits.png","1986000":"fine_leather_polish.png","1987000":"robust_reins.png",
-  "1988000":"adorned_holster.png","1989000":"rustprove_bolts.png","1990000":"silvered_flask.png",
-  "1991000":"modern_armor.png","1999000":"canned_beans.png","2000000":"habanero_chilis.png",
-  "2001000":"hottest_chili.png","2002000":"glowing_mixture.png","2003000":"cobra_fangs.png",
-  "2004000":"fabled_antidote.png","2005000":"weightless_leather.png",
-  "2006000":"cossack_saddle_blanket.png","2007000":"pony_express_saddlery.png",
-  "2008000":"watchmaker_tools.png","2009000":"gilded_cogs.png","2010000":"golden_music_box.png",
-  "2162000":"ground_coffee.png","2163000":"lamb_wool.png","2430000":"large_caliber_bullets.png",
-  "2431000":"emblem.png","2432000":"milk.png","2433000":"tongs.png","2435000":"bandages.png",
-  "2436000":"music_sheet.png","2437000":"pinkerton_emblem.png","2439000":"drill_trumpet.png",
-  "2442000":"border_stone.png","2443000":"public_documents.png","2444000":"ceremonial_staff.png",
-  "2445000":"pocket_knife.png","2446000":"bullet_casings.png","2447000":"green_peppers.png",
-  "2450000":"egg_jar.png","2451000":"blasting_machine.png","2452000":"skull.png",
-  "2453000":"white_gloves.png","2454000":"dogma.png","2455000":"crocodile_skin.png",
-  "2456000":"vodka.png","2457000":"horse_reins.png","2458000":"record.png",
-  "2516000":"hushpuppy.png","2517000":"jerky.png","2518000":"grog.png",
-  "2519000":"racing_coach.png","2520000":"repaired_saddle.png","2521000":"tapestry.png",
-  "2522000":"westerner.png","2523000":"utility_knife.png","2524000":"wells_fargo_saddle.png",
-  "2525000":"disappearing_ink.png","2526000":"fireammo.png","2527000":"potency_remedy.png",
-  "2730000":"flax.png","2731000":"puppet.png","2732000":"ghostmusic.png","2733000":"glass.png",
-  "2734000":"lantern.png","2735000":"honeypress.png","2736000":"cactus.png","2737000":"honey.png",
-  "2738000":"honeywine.png","2739000":"notebook.png","2740000":"carriage.png",
-  "2741000":"amoslide.png","51576000":"item_51576.png","51577000":"item_51577.png",
-  "51578000":"item_51578.png","51579000":"item_51579.png","51580000":"item_51580.png",
-  "51581000":"item_51581.png","51582000":"item_51582.png","51583000":"item_51583.png",
-  "51584000":"item_51584.png","51585000":"item_51585.png","51586000":"item_51586.png",
-  "51587000":"item_51587.png","51588000":"item_51588.png","51589000":"item_51589.png",
-  "51590000":"item_51590.png","51591000":"item_51591.png","51592000":"item_51592.png",
-  "51593000":"item_51593.png","51594000":"item_51594.png","51595000":"item_51595.png",
-  "51596000":"item_51596.png","51597000":"item_51597.png","51598000":"item_51598.png",
-  "51599000":"item_51599.png","52027000":"item_52027.png","52028000":"item_52028.png",
-  "52029000":"item_52029.png","52030000":"item_52030.png","52497000":"item_52497.png",
-  "52499000":"item_52499.png","52500000":"item_52500.png","52501000":"item_52501.png",
-  "52502000":"item_52502.png","52503000":"item_52503.png","52504000":"item_52504.png",
-  "52505000":"item_52505.png","52506000":"item_52506.png","52518000":"item_52518.png",
-  "52868000":"item_52868.png","52869000":"item_52869.png","52870000":"item_52870.png",
-  "52871000":"item_52871.png","52932000":"item_52932.png","52933000":"item_52933.png",
-  "52934000":"item_52934.png","52935000":"item_52935.png","52936000":"item_52936.png",
-  "52937000":"item_52937.png","52938000":"item_52938.png","52939000":"item_52939.png",
-  "52941000":"item_52941.png","52942000":"item_52942.png","52943000":"item_52943.png",
-  "52945000":"item_52945.png","52946000":"item_52946.png","52947000":"item_52947.png",
-  "52949000":"item_52949.png","52950000":"item_52950.png","52951000":"item_52951.png",
-  "52952000":"item_52952.png","52953000":"item_52953.png","52954000":"item_52954.png",
-  "52956000":"item_52956.png","52958000":"item_52958.png","52959000":"item_52959.png",
-  "52961000":"item_52961.png","52962000":"item_52962.png","52963000":"item_52963.png",
-  "52964000":"item_52964.png","52965000":"item_52965.png","52966000":"item_52966.png",
-  "52967000":"item_52967.png","52969000":"item_52969.png","52970000":"item_52970.png",
-  "52971000":"item_52971.png","52972000":"item_52972.png","52974000":"item_52974.png",
-  "52975000":"item_52975.png","53336000":"item_53336.png","53337000":"item_53337.png",
-  "53338000":"item_53338.png","53339000":"item_53339.png","53340000":"item_53340.png",
-  "53938000":"cowboy_stew.png","53939000":"metal_mug.png","53940000":"saddle_seat.png",
-  "53941000":"modern_medicine.png","54379000":"item_54379.png","54380000":"item_54380.png",
-  "54381000":"item_54381.png","54382000":"item_54382.png","54471000":"item_54471.png",
-  "54472000":"item_54472.png","54473000":"item_54473.png","54474000":"item_54474.png",
-  "54475000":"item_54475.png","54476000":"item_54476.png","54477000":"item_54477.png",
-  "54478000":"item_54478.png","54479000":"item_54479.png","54480000":"item_54480.png",
-  "54481000":"item_54481.png","54482000":"item_54482.png","54487000":"item_54487.png",
-  "54488000":"item_54488.png","54489000":"item_54489.png","54490000":"item_54490.png",
-  "54531000":"item_54531.png","54532000":"item_54532.png","54533000":"item_54533.png",
-  "54534000":"item_54534.png","54598000":"item_54598.png","54599000":"item_54599.png",
-  "54600000":"item_54600.png","54601000":"item_54601.png","54824000":"item_54824.png",
-  "54825000":"item_54825.png","54826000":"item_54826.png","54827000":"item_54827.png"
-};
+/* tárgyikonok: azonosító → fájlnév a kepek/ mappában */
 const IMG_BASE = "kepek/";
-
-/* Tárgyikonok. A képek a repó kepek/ mappájában vannak, az InnoGames kiszolgálóját
-   nem terheljük. Ha egy kép hiányzik, az img magát rejti el, a sor ép marad. */
-function ico(id, cls){
-  const f = ITEM_IMG[id];
-  if(!f) return "";
-  return `<img class="ico${cls ? " " + cls : ""}" src="${IMG_BASE}${f}" alt="" loading="lazy"
-    decoding="async" onerror="this.style.display='none'">`;
-}
+const ITEM_IMG = {
+"700000":"ham.png",
+"701000":"cereals.png",
+"702000":"tabacco.png",
+"703000":"sugar.png",
+"704000":"cotton.png",
+"705000":"trout.png",
+"706000":"berrys.png",
+"707000":"shearings.png",
+"708000":"copper_pyrites.png",
+"709000":"turkey.png",
+"710000":"beef.png",
+"711000":"planks.png",
+"712000":"leather.png",
+"714000":"beaver.png",
+"715000":"fabric.png",
+"716000":"stone.png",
+"717000":"grund.png",
+"718000":"coyote.png",
+"719000":"cigar.png",
+"720000":"gems.png",
+"721000":"coal.png",
+"722000":"meal.png",
+"724000":"buffalo.png",
+"725000":"silver.png",
+"728000":"watch.png",
+"733000":"packet.png",
+"737000":"dynamite.png",
+"739000":"fence.png",
+"740000":"horn.png",
+"741000":"pitcher.png",
+"742000":"saw.png",
+"743000":"poster.png",
+"744000":"newspaper.png",
+"745000":"flour.png",
+"746000":"beans.png",
+"747000":"hammer.png",
+"748000":"corn.png",
+"749000":"rope.png",
+"751000":"pipe.png",
+"752000":"oil.png",
+"754000":"horseshoe.png",
+"756000":"toolbox.png",
+"757000":"feather.png",
+"761000":"sledgehammer.png",
+"763000":"wolf.png",
+"764000":"shackle.png",
+"765000":"sickle.png",
+"766000":"water.png",
+"767000":"string.png",
+"771000":"trap.png",
+"778000":"cooking_pot.png",
+"779000":"post_horn.png",
+"782000":"angle.png",
+"784000":"nails.png",
+"787000":"saddle.png",
+"789000":"coin.png",
+"790000":"iron.png",
+"791000":"orange.png",
+"792000":"tequila.png",
+"793000":"tomato.png",
+"794000":"potion.png",
+"795000":"peg.png",
+"797000":"pitchfork.png",
+"1708000":"whiskey.png",
+"1791000":"golddust.png",
+"1807000":"sock.png",
+"1808000":"potatoe.png",
+"1809000":"hay.png",
+"1810000":"pumpkin.png",
+"1811000":"blueberries.png",
+"1812000":"pit.png",
+"1813000":"eagle_feather.png",
+"1814000":"lotus.png",
+"1815000":"crabmeat.png",
+"1816000":"chalk.png",
+"1818000":"sulfurstone.png",
+"1820000":"snakehide.png",
+"1821000":"salpetersalt.png",
+"1822000":"cigaretts.png",
+"1824000":"cougar_hide.png",
+"1825000":"indigo.png",
+"1826000":"rum.png",
+"1827000":"lead.png",
+"1832000":"metall_chip.png",
+"1833000":"death_warrant.png",
+"1834000":"peaceflower.png",
+"1835000":"rose.png",
+"1855000":"charcoal.png",
+"1856000":"waterjar.png",
+"1857000":"fieldbottle.png",
+"1858000":"workingknife.png",
+"1859000":"cookingpan.png",
+"1860000":"cuttingwood.png",
+"1861000":"flint.png",
+"1862000":"cornflour.png",
+"1863000":"beansandbacon.png",
+"1864000":"marmelade.png",
+"1865000":"mash.png",
+"1866000":"dough.png",
+"1867000":"seasonedsteak.png",
+"1868000":"licor.png",
+"1869000":"cake.png",
+"1870000":"fishfond.png",
+"1871000":"grilled_turkey.png",
+"1872000":"fishsoup.png",
+"1873000":"veggiepun.png",
+"1874000":"meatloaf.png",
+"1875000":"fishonastick.png",
+"1876000":"parfumsmoke.png",
+"1877000":"sauce.png",
+"1878000":"paperfish.png",
+"1879000":"gentlemendinner.png",
+"1880000":"gum.png",
+"1881000":"sulfur.png",
+"1882000":"pipecleaner.png",
+"1883000":"stomach.png",
+"1884000":"sulfuracid.png",
+"1885000":"ink.png",
+"1886000":"petroleum.png",
+"1887000":"fetish.png",
+"1888000":"destillate.png",
+"1889000":"firewater.png",
+"1890000":"tea.png",
+"1891000":"chewtabaco.png",
+"1892000":"fruitlicor.png",
+"1893000":"battery.png",
+"1894000":"lye.png",
+"1895000":"herbbrew.png",
+"1896000":"rec_paper.png",
+"1897000":"mathdraw.png",
+"1898000":"rosewater.png",
+"1899000":"hotiron.png",
+"1900000":"bajonett.png",
+"1901000":"weightstone.png",
+"1902000":"steel.png",
+"1903000":"liquid_lead.png",
+"1904000":"forge.png",
+"1905000":"lead_figure.png",
+"1906000":"hot_marbel.png",
+"1907000":"rivets.png",
+"1908000":"handprotection.png",
+"1909000":"coolingpackage.png",
+"1910000":"weaponchain.png",
+"1911000":"weapon_handle.png",
+"1912000":"revolverform.png",
+"1913000":"steelblade.png",
+"1914000":"weapon_custom.png",
+"1915000":"druse.png",
+"1916000":"polishstone.png",
+"1917000":"leatherband.png",
+"1918000":"horseshoe_equip.png",
+"1919000":"powerfood.png",
+"1920000":"naked_saddle.png",
+"1921000":"fillmaterial.png",
+"1922000":"leatherskin.png",
+"1923000":"branding_iron.png",
+"1924000":"notworking_compass.png",
+"1925000":"ironstep.png",
+"1926000":"spores.png",
+"1927000":"harnish.png",
+"1928000":"fieldcamp.png",
+"1929000":"horse_cloth.png",
+"1930000":"custom_leather.png",
+"1931000":"charriot_piece.png",
+"1932000":"wagon_wheel.png",
+"1933000":"aimwater.png",
+"1934000":"gem_knob.png",
+"1937000":"travelbag.png",
+"1938000":"sharpweapon.png",
+"1939000":"filtercigaretts.png",
+"1940000":"cake_piece.png",
+"1941000":"tomato_mash.png",
+"1942000":"tomato_sauce.png",
+"1943000":"baked_beans.png",
+"1944000":"raw_pyrit.png",
+"1945000":"pyritsun.png",
+"1946000":"pyrit_amulett.png",
+"1947000":"graphit.png",
+"1948000":"graphitpulver.png",
+"1949000":"graphit_glue.png",
+"1950000":"workedleather.png",
+"1951000":"leathersac.png",
+"1952000":"foodsac.png",
+"1980000":"dried_meat.png",
+"1981000":"gulash.png",
+"1982000":"spare_ribs.png",
+"1983000":"snake_oil.png",
+"1984000":"hair_tonic.png",
+"1985000":"fine_spirits.png",
+"1986000":"fine_leather_polish.png",
+"1987000":"robust_reins.png",
+"1988000":"adorned_holster.png",
+"1989000":"rustprove_bolts.png",
+"1990000":"silvered_flask.png",
+"1991000":"modern_armor.png",
+"1999000":"canned_beans.png",
+"2000000":"habanero_chilis.png",
+"2001000":"hottest_chili.png",
+"2002000":"glowing_mixture.png",
+"2003000":"cobra_fangs.png",
+"2004000":"fabled_antidote.png",
+"2005000":"weightless_leather.png",
+"2006000":"cossack_saddle_blanket.png",
+"2007000":"pony_express_saddlery.png",
+"2008000":"watchmaker_tools.png",
+"2009000":"gilded_cogs.png",
+"2010000":"golden_music_box.png",
+"2162000":"ground_coffee.png",
+"2163000":"lamb_wool.png",
+"2430000":"large_caliber_bullets.png",
+"2431000":"emblem.png",
+"2432000":"milk.png",
+"2433000":"tongs.png",
+"2435000":"bandages.png",
+"2436000":"music_sheet.png",
+"2437000":"pinkerton_emblem.png",
+"2439000":"drill_trumpet.png",
+"2442000":"border_stone.png",
+"2443000":"public_documents.png",
+"2444000":"ceremonial_staff.png",
+"2445000":"pocket_knife.png",
+"2446000":"bullet_casings.png",
+"2447000":"green_peppers.png",
+"2450000":"egg_jar.png",
+"2451000":"blasting_machine.png",
+"2452000":"skull.png",
+"2453000":"white_gloves.png",
+"2454000":"dogma.png",
+"2455000":"crocodile_skin.png",
+"2456000":"vodka.png",
+"2457000":"horse_reins.png",
+"2458000":"record.png",
+"2516000":"hushpuppy.png",
+"2517000":"jerky.png",
+"2518000":"grog.png",
+"2519000":"racing_coach.png",
+"2520000":"repaired_saddle.png",
+"2521000":"tapestry.png",
+"2522000":"westerner.png",
+"2523000":"utility_knife.png",
+"2524000":"wells_fargo_saddle.png",
+"2525000":"disappearing_ink.png",
+"2526000":"fireammo.png",
+"2527000":"potency_remedy.png",
+"2730000":"flax.png",
+"2731000":"puppet.png",
+"2732000":"ghostmusic.png",
+"2733000":"glass.png",
+"2734000":"lantern.png",
+"2735000":"honeypress.png",
+"2736000":"cactus.png",
+"2737000":"honey.png",
+"2738000":"honeywine.png",
+"2739000":"notebook.png",
+"2740000":"carriage.png",
+"2741000":"amoslide.png",
+"51576000":"item_51576.png",
+"51577000":"item_51577.png",
+"51578000":"item_51578.png",
+"51579000":"item_51579.png",
+"51580000":"item_51580.png",
+"51581000":"item_51581.png",
+"51582000":"item_51582.png",
+"51583000":"item_51583.png",
+"51584000":"item_51584.png",
+"51585000":"item_51585.png",
+"51586000":"item_51586.png",
+"51587000":"item_51587.png",
+"51588000":"item_51588.png",
+"51589000":"item_51589.png",
+"51590000":"item_51590.png",
+"51591000":"item_51591.png",
+"51592000":"item_51592.png",
+"51593000":"item_51593.png",
+"51594000":"item_51594.png",
+"51595000":"item_51595.png",
+"51596000":"item_51596.png",
+"51597000":"item_51597.png",
+"51598000":"item_51598.png",
+"51599000":"item_51599.png",
+"52027000":"item_52027.png",
+"52028000":"item_52028.png",
+"52029000":"item_52029.png",
+"52030000":"item_52030.png",
+"52497000":"item_52497.png",
+"52499000":"item_52499.png",
+"52500000":"item_52500.png",
+"52501000":"item_52501.png",
+"52502000":"item_52502.png",
+"52503000":"item_52503.png",
+"52504000":"item_52504.png",
+"52505000":"item_52505.png",
+"52506000":"item_52506.png",
+"52518000":"item_52518.png",
+"52868000":"item_52868.png",
+"52869000":"item_52869.png",
+"52870000":"item_52870.png",
+"52871000":"item_52871.png",
+"52932000":"item_52932.png",
+"52933000":"item_52933.png",
+"52934000":"item_52934.png",
+"52935000":"item_52935.png",
+"52936000":"item_52936.png",
+"52937000":"item_52937.png",
+"52938000":"item_52938.png",
+"52939000":"item_52939.png",
+"52941000":"item_52941.png",
+"52942000":"item_52942.png",
+"52943000":"item_52943.png",
+"52945000":"item_52945.png",
+"52946000":"item_52946.png",
+"52947000":"item_52947.png",
+"52949000":"item_52949.png",
+"52950000":"item_52950.png",
+"52951000":"item_52951.png",
+"52952000":"item_52952.png",
+"52953000":"item_52953.png",
+"52954000":"item_52954.png",
+"52956000":"item_52956.png",
+"52958000":"item_52958.png",
+"52959000":"item_52959.png",
+"52961000":"item_52961.png",
+"52962000":"item_52962.png",
+"52963000":"item_52963.png",
+"52964000":"item_52964.png",
+"52965000":"item_52965.png",
+"52966000":"item_52966.png",
+"52967000":"item_52967.png",
+"52969000":"item_52969.png",
+"52970000":"item_52970.png",
+"52971000":"item_52971.png",
+"52972000":"item_52972.png",
+"52974000":"item_52974.png",
+"52975000":"item_52975.png",
+"53336000":"item_53336.png",
+"53337000":"item_53337.png",
+"53338000":"item_53338.png",
+"53339000":"item_53339.png",
+"53340000":"item_53340.png",
+"53938000":"cowboy_stew.png",
+"53939000":"metal_mug.png",
+"53940000":"saddle_seat.png",
+"53941000":"modern_medicine.png",
+"54379000":"item_54379.png",
+"54380000":"item_54380.png",
+"54381000":"item_54381.png",
+"54382000":"item_54382.png",
+"54471000":"item_54471.png",
+"54472000":"item_54472.png",
+"54473000":"item_54473.png",
+"54474000":"item_54474.png",
+"54475000":"item_54475.png",
+"54476000":"item_54476.png",
+"54477000":"item_54477.png",
+"54478000":"item_54478.png",
+"54479000":"item_54479.png",
+"54480000":"item_54480.png",
+"54481000":"item_54481.png",
+"54482000":"item_54482.png",
+"54487000":"item_54487.png",
+"54488000":"item_54488.png",
+"54489000":"item_54489.png",
+"54490000":"item_54490.png",
+"54531000":"item_54531.png",
+"54532000":"item_54532.png",
+"54533000":"item_54533.png",
+"54534000":"item_54534.png",
+"54598000":"item_54598.png",
+"54599000":"item_54599.png",
+"54600000":"item_54600.png",
+"54601000":"item_54601.png",
+"54824000":"item_54824.png",
+"54825000":"item_54825.png",
+"54826000":"item_54826.png",
+"54827000":"item_54827.png"
+};
 
 const RECIPES = [
 /* --- 1. Tábori szakács --- */
@@ -641,10 +980,10 @@ const RECIPES = [
 {i:"54824000",n:"Lapos kenyér",p:1,l:"1/?/1",g:[["745000",4],["766000",7],["722000",2],["1859000",2]]},
 {i:"1942000",n:"Paradicsomszósz",p:1,l:"10/20/20",g:[["1941000",1]]},
 {i:"1943000",n:"Sült bab",p:1,l:"20/40/40",g:[["1942000",1],["746000",1]]},
-{i:"53340000",n:"15. születésnapi torta",p:[1,2,3,4],l:"50/?/150",g:[["53336000",1],["53337000",1],["53338000",1],["53339000",1]]},
+{i:"53340000",t:604800,n:"15. születésnapi torta",p:[1,2,3,4],l:"50/?/150",g:[["53336000",1],["53337000",1],["53338000",1],["53339000",1]]},
 {i:"52504000",n:"Desszert dekoráció",p:1,l:"50/100/150",g:[["792000",1],["766000",1],["1708000",2],["703000",4],["748000",3]]},
 {i:"1864000",n:"Lekvár",p:1,l:"50/100/100",g:[["1811000",2],["1855000",1],["703000",2]]},
-{i:"52518000",n:"Pohárdesszert",p:[1,2,3,4],l:"50/100/150",g:[["52499000",1],["52505000",1],["52504000",1],["52501000",1],["52500000",1]]},
+{i:"52518000",t:86400,n:"Pohárdesszert",p:[1,2,3,4],l:"50/100/150",g:[["52499000",1],["52505000",1],["52504000",1],["52501000",1],["52500000",1]]},
 {i:"1863000",n:"Szalonnás bab",p:1,l:"50/100/100",g:[["746000",1],["700000",1],["1855000",1],["1859000",1]]},
 {i:"53336000",n:"Tortalap",p:1,l:"50/?/150",g:[["766000",6],["745000",3],["703000",2],["792000",1]]},
 {i:"52029000",n:"Vaj",p:1,l:"50/100/150",g:[["2432000",1]]},
@@ -675,18 +1014,18 @@ const RECIPES = [
 {i:"2737000",n:"Méz",p:1,l:"550/575/600",g:[["2735000",1],["1835000",1]]},
 {i:"1982000",n:"Oldalas",p:1,l:"550/575/600",g:[["710000",4],["1877000",4],["1855000",4]]},
 {i:"2001000",n:"A legtüzesebb chili a vadnyugaton",p:1,l:"600/625/650",g:[["2000000",1],["1999000",4],["1874000",7],["721000",5]]},
-{i:"1999000",n:"Babkonzerv",p:1,l:"600/625/650",g:[["746000",7],["1902000",3],["716000",12],["721000",12],["747000",5]]},
+{i:"1999000",t:604800,n:"Babkonzerv",p:1,l:"600/625/650",g:[["746000",7],["1902000",3],["716000",12],["721000",12],["747000",5]]},
 {i:"2738000",n:"Mézbor",p:1,l:"600/650/700",g:[["2737000",2],["1856000",1],["2432000",2],["1862000",1]]},
-{i:"51581000",n:"Castello sajt",p:1,l:"650/700/750",g:[["2432000",6],["1708000",6],["2737000",2],["2447000",1]]},
-{i:"52503000",n:"Francia reggeli",p:1,l:"700/800/850",g:[["2162000",4],["2450000",2],["1811000",4],["745000",4]]},
+{i:"51581000",t:345600,n:"Castello sajt",p:1,l:"650/700/750",g:[["2432000",6],["1708000",6],["2737000",2],["2447000",1]]},
+{i:"52503000",t:345600,n:"Francia reggeli",p:1,l:"700/800/850",g:[["2162000",4],["2450000",2],["1811000",4],["745000",4]]},
 {i:"51576000",n:"Koktél",p:1,l:"700/725/750",g:[["2456000",10],["2447000",5],["1834000",4],["2458000",1],["2736000",1],["1888000",1]]},
 {i:"51580000",n:"Trágya",p:1,l:"700/750/800",g:[["1860000",10],["1809000",5],["1873000",1],["1943000",2],["1862000",1],["1866000",1],["797000",1]]},
 {i:"51578000",n:"Bányász burger",p:1,l:"750/775/800",g:[["1855000",10],["710000",1],["1980000",3],["1866000",2],["1877000",4]]},
-{i:"51579000",n:"Gyümölcskoktél",p:1,l:"750/788/825",g:[["791000",4],["2737000",2],["1811000",10],["1865000",2],["2432000",1]]},
+{i:"51579000",t:604800,n:"Gyümölcskoktél",p:1,l:"750/788/825",g:[["791000",4],["2737000",2],["1811000",10],["1865000",2],["2432000",1]]},
 {i:"51577000",n:"Egy csomag ízesített rágógumi",p:1,l:"775/800/825",g:[["793000",2],["1811000",2],["2517000",1],["1825000",1],["1808000",2],["791000",2]]},
-{i:"54599000",n:"A tábori szakács emlékei",p:1,l:"825/?/875",g:[["52943000",2],["52936000",1],["2458000",3],["2454000",4],["2450000",3]]},
+{i:"54599000",t:345600,n:"A tábori szakács emlékei",p:1,l:"825/?/875",g:[["52943000",2],["52936000",1],["2458000",3],["2454000",4],["2450000",3]]},
 {i:"54488000",n:"Fehér tál",p:1,l:"850/?/900",g:[["1865000",2],["52951000",5],["52969000",3],["52964000",2]]},
-{i:"54475000",n:"Téli élelmiszerkészletek",p:1,l:"875/?/925",g:[["52933000",2],["2447000",2],["1810000",2],["52967000",2],["52965000",4],["1859000",2]]},
+{i:"54475000",t:604800,n:"Téli élelmiszerkészletek",p:1,l:"875/?/925",g:[["52933000",2],["2447000",2],["1810000",2],["52967000",2],["52965000",4],["1859000",2]]},
 {i:"54476000",n:"Fűszeres kenyér",p:1,l:"900/?/950",g:[["52932000",3],["52933000",2],["52967000",2],["1902000",1],["52946000",2],["52950000",2],["1862000",2]]},
 {i:"54532000",n:"Forró ital",p:1,l:"925/?/975",g:[["52967000",2],["52941000",4],["2456000",4],["2447000",3],["1826000",5]]},
 {i:"54474000",n:"Szarvasgombás saláta",p:1,l:"950/?/1000",g:[["52961000",2],["52932000",3],["52933000",3],["52946000",4],["1942000",2]]},
@@ -730,19 +1069,19 @@ const RECIPES = [
 {i:"1984000",n:"Hajnövesztő szer",p:2,l:"525/550/575",g:[["1893000",1],["1886000",1],["1824000",1]]},
 {i:"2731000",n:"Gyógyító baba",p:2,l:"550/575/600",g:[["1880000",1],["1897000",1],["1917000",2],["2730000",1]]},
 {i:"1985000",n:"Különleges likőr",p:2,l:"550/575/600",g:[["1889000",1],["1895000",1],["741000",1]]},
-{i:"2002000",n:"Izzó keverék",p:2,l:"600/625/650",g:[["1983000",1],["1876000",3],["1814000",2],["752000",3]]},
+{i:"2002000",t:604800,n:"Izzó keverék",p:2,l:"600/625/650",g:[["1983000",1],["1876000",3],["1814000",2],["752000",3]]},
 {i:"2004000",n:"Legendás ellenanyag",p:2,l:"600/625/650",g:[["2003000",1],["2002000",4],["721000",4],["1895000",5]]},
 {i:"2732000",n:"Szellemzene",p:2,l:"600/650/700",g:[["2436000",4],["1833000",1],["2525000",2],["1888000",1],["2730000",1]]},
 {i:"51599000",n:"Álomcsapda",p:2,l:"650/700/750",g:[["757000",10],["1813000",3],["712000",1],["1917000",1],["767000",1]]},
-{i:"51598000",n:"Behozatali adóigazolás",p:2,l:"700/750/800",g:[["2443000",3],["2458000",1],["1923000",1],["1896000",1],["2525000",1]]},
+{i:"51598000",t:345600,n:"Behozatali adóigazolás",p:2,l:"700/750/800",g:[["2443000",3],["2458000",1],["1923000",1],["1896000",1],["2525000",1]]},
 {i:"51594000",n:"Csodaszer",p:2,l:"700/725/750",g:[["2162000",10],["2450000",2],["2432000",2],["2731000",1],["1895000",1],["1889000",1]]},
-{i:"52506000",n:"Lázcsillapító",p:2,l:"700/800/850",g:[["2432000",1],["1826000",1],["2456000",2],["2447000",1]]},
+{i:"52506000",t:345600,n:"Lázcsillapító",p:2,l:"700/800/850",g:[["2432000",1],["1826000",1],["2456000",2],["2447000",1]]},
 {i:"51596000",n:"Erős sav és lúg",p:2,l:"750/775/800",g:[["1884000",10],["1894000",10],["1821000",10],["794000",4],["766000",10]]},
-{i:"51597000",n:"Orvosság kínok ellen",p:2,l:"750/788/825",g:[["1876000",2],["702000",5],["2730000",1],["751000",1]]},
+{i:"51597000",t:604800,n:"Orvosság kínok ellen",p:2,l:"750/788/825",g:[["1876000",2],["702000",5],["2730000",1],["751000",1]]},
 {i:"51595000",n:"Fém koponya",p:2,l:"775/800/825",g:[["2452000",3],["725000",5],["1827000",3],["1945000",5],["789000",4]]},
-{i:"54601000",n:"A sarlatán emlékei",p:2,l:"825/?/875",g:[["52958000",6],["52946000",3],["52932000",1],["2456000",2],["2432000",3],["733000",1]]},
+{i:"54601000",t:345600,n:"A sarlatán emlékei",p:2,l:"825/?/875",g:[["52958000",6],["52946000",3],["52932000",1],["2456000",2],["2432000",3],["733000",1]]},
 {i:"54490000",n:"Kocsmai itallap",p:2,l:"850/?/900",g:[["1886000",2],["52946000",5],["52950000",2],["778000",3]]},
-{i:"54480000",n:"Méhviasz gyertya",p:2,l:"875/?/925",g:[["52959000",15],["52965000",3],["52967000",2],["52972000",2],["1930000",2]]},
+{i:"54480000",t:604800,n:"Méhviasz gyertya",p:2,l:"875/?/925",g:[["52959000",15],["52965000",3],["52967000",2],["52972000",2],["1930000",2]]},
 {i:"54482000",n:"Tűzszerész készlet",p:2,l:"900/?/950",g:[["1986000",1],["1861000",2],["52974000",2],["52953000",3],["52956000",3],["52963000",2],["2456000",3]]},
 {i:"54534000",n:"Fűszerkeverék",p:2,l:"925/?/975",g:[["2447000",2],["52932000",2],["52961000",1],["52942000",1],["52939000",2]]},
 {i:"54481000",n:"Gyógyászati paróka",p:2,l:"950/?/1000",g:[["52947000",3],["1883000",2],["52959000",8],["52941000",2],["52936000",4]]},
@@ -788,17 +1127,17 @@ const RECIPES = [
 {i:"2735000",n:"Mézprés",p:3,l:"550/575/600",g:[["711000",3],["790000",1],["1911000",2],["747000",1]]},
 {i:"2010000",n:"Arany zenedoboz",p:3,l:"600/625/650",g:[["2009000",1],["2008000",4],["728000",4],["767000",5]]},
 {i:"2734000",n:"Lámpás",p:3,l:"600/650/700",g:[["2733000",3],["1914000",2],["784000",1],["1899000",2]]},
-{i:"2008000",n:"Órásmester szerszámai",p:3,l:"600/625/650",g:[["765000",2],["1925000",2],["1913000",2],["739000",3],["1989000",1]]},
-{i:"51593000",n:"Lovassági szablya",p:3,l:"650/700/750",g:[["1913000",2],["1911000",1],["1855000",4]]},
+{i:"2008000",t:604800,n:"Órásmester szerszámai",p:3,l:"600/625/650",g:[["765000",2],["1925000",2],["1913000",2],["739000",3],["1989000",1]]},
+{i:"51593000",t:345600,n:"Lovassági szablya",p:3,l:"650/700/750",g:[["1913000",2],["1911000",1],["1855000",4]]},
 {i:"51592000",n:"Kereső",p:3,l:"700/750/800",g:[["2733000",1],["711000",2],["1880000",1],["1907000",2],["1902000",1],["2453000",1]]},
-{i:"52497000",n:"Mesteri sarkantyúk",p:3,l:"700/800/850",g:[["2433000",1],["2442000",1],["790000",2],["747000",1]]},
+{i:"52497000",t:345600,n:"Mesteri sarkantyúk",p:3,l:"700/800/850",g:[["2433000",1],["2442000",1],["790000",2],["747000",1]]},
 {i:"51588000",n:"Rejtett bomba",p:3,l:"700/725/750",g:[["1832000",5],["2437000",2],["2451000",5],["737000",10],["2739000",1],["1915000",1]]},
-{i:"51591000",n:"Edzett acél",p:3,l:"750/788/825",g:[["1904000",1],["1902000",3],["761000",2],["1856000",4],["1855000",5]]},
+{i:"51591000",t:604800,n:"Edzett acél",p:3,l:"750/788/825",g:[["1904000",1],["1902000",3],["761000",2],["1856000",4],["1855000",5]]},
 {i:"51590000",n:"Fejlesztett szerszámkészlet",p:3,l:"750/775/800",g:[["1989000",3],["1913000",3],["1907000",3],["756000",2],["2433000",4]]},
 {i:"51589000",n:"Szabó próbabábúja",p:3,l:"775/800/825",g:[["1905000",1],["712000",6],["715000",6],["2445000",3],["2435000",3]]},
-{i:"54598000",n:"A kovács emlékei",p:3,l:"825/?/875",g:[["2433000",3],["1827000",6],["1813000",2],["790000",3],["725000",1]]},
+{i:"54598000",t:345600,n:"A kovács emlékei",p:3,l:"825/?/875",g:[["2433000",3],["1827000",6],["1813000",2],["790000",3],["725000",1]]},
 {i:"54487000",n:"Kovács üllője",p:3,l:"850/?/900",g:[["1904000",2],["52967000",2],["52954000",5],["761000",3]]},
-{i:"54472000",n:"Állatok nagy atlasza",p:3,l:"875/?/925",g:[["52934000",2],["52971000",2],["52975000",15],["1885000",2],["1813000",2]]},
+{i:"54472000",t:604800,n:"Állatok nagy atlasza",p:3,l:"875/?/925",g:[["52934000",2],["52971000",2],["52975000",15],["1885000",2],["1813000",2]]},
 {i:"54473000",n:"Játék pisztoly",p:3,l:"900/?/950",g:[["52938000",2],["52970000",4],["52939000",2],["52935000",1],["1893000",1],["2446000",2],["1914000",2]]},
 {i:"54531000",n:"Vödör",p:3,l:"925/?/975",g:[["52954000",6],["52949000",2],["52937000",3],["2457000",2],["2433000",4]]},
 {i:"54471000",n:"Pót alkatrészek",p:3,l:"950/?/1000",g:[["52953000",4],["1907000",2],["52949000",3],["52958000",6],["52970000",4],["52964000",2]]},
@@ -843,18 +1182,18 @@ const RECIPES = [
 {i:"1988000",n:"Tartós pisztolytáska",p:4,l:"550/575/600",g:[["1950000",1],["1921000",1],["1922000",1]]},
 {i:"2740000",n:"Utazókocsi",p:4,l:"550/575/600",g:[["1932000",2],["1931000",1],["2730000",1]]},
 {i:"2741000",n:"Lőszeröv",p:4,l:"600/650/700",g:[["1950000",2],["2433000",1],["2446000",1],["1986000",1]]},
-{i:"2005000",n:"Pehelykönnyű bőr",p:4,l:"600/625/650",g:[["1986000",1],["1894000",3],["1950000",5],["1922000",3]]},
+{i:"2005000",t:604800,n:"Pehelykönnyű bőr",p:4,l:"600/625/650",g:[["1986000",1],["1894000",3],["1950000",5],["1922000",3]]},
 {i:"2007000",n:"Pony expressz lószerszámok",p:4,l:"600/625/650",g:[["2006000",1],["2005000",4],["1930000",5],["724000",6]]},
-{i:"51587000",n:"Bőrkabát",p:4,l:"650/700/750",g:[["715000",2],["724000",2],["1824000",3],["1922000",4]]},
-{i:"52502000",n:"Bőr nyeregtáska",p:4,l:"700/800/850",g:[["2445000",1],["1824000",2],["2457000",1]]},
+{i:"51587000",t:345600,n:"Bőrkabát",p:4,l:"650/700/750",g:[["715000",2],["724000",2],["1824000",3],["1922000",4]]},
+{i:"52502000",t:345600,n:"Bőr nyeregtáska",p:4,l:"700/800/850",g:[["2445000",1],["1824000",2],["2457000",1]]},
 {i:"51582000",n:"Maria Roalstad postakocsija",p:4,l:"700/725/750",g:[["2163000",10],["779000",1],["2740000",1],["1921000",1],["1986000",1],["1907000",1]]},
 {i:"51586000",n:"Páncél a hátasnak",p:4,l:"700/750/800",g:[["1991000",1],["1929000",3]]},
 {i:"51584000",n:"Szövetdoboz",p:4,l:"750/775/800",g:[["1929000",3],["1922000",3],["1950000",3],["1824000",8],["2455000",10]]},
-{i:"51585000",n:"Öv szíjakkal",p:4,l:"750/788/825",g:[["1917000",3],["2005000",1],["1907000",1],["761000",1]]},
+{i:"51585000",t:604800,n:"Öv szíjakkal",p:4,l:"750/788/825",g:[["1917000",3],["2005000",1],["1907000",1],["761000",1]]},
 {i:"51583000",n:"A The West zenéje",p:4,l:"775/800/825",g:[["1813000",3],["2436000",5],["2739000",2],["1885000",3]]},
-{i:"54600000",n:"Az istállómester emlékei",p:4,l:"825/?/875",g:[["1820000",2],["2453000",2],["2455000",3],["2442000",3],["52934000",1]]},
+{i:"54600000",t:345600,n:"Az istállómester emlékei",p:4,l:"825/?/875",g:[["1820000",2],["2453000",2],["2455000",3],["2442000",3],["52934000",1]]},
 {i:"54489000",n:"Csomag vászonképpel",p:4,l:"850/?/900",g:[["1922000",2],["52964000",5],["52952000",3],["52936000",2]]},
-{i:"54477000",n:"Lófelszerelés",p:4,l:"875/?/925",g:[["52952000",2],["2457000",2],["52963000",5],["52945000",2],["52942000",2],["52935000",1]]},
+{i:"54477000",t:604800,n:"Lófelszerelés",p:4,l:"875/?/925",g:[["52952000",2],["2457000",2],["52963000",5],["52945000",2],["52942000",2],["52935000",1]]},
 {i:"54478000",n:"Kengyelbőr",p:4,l:"900/?/950",g:[["52937000",1],["52941000",2],["52935000",1],["1877000",1],["747000",1],["2453000",2],["1951000",2]]},
 {i:"54533000",n:"Fonal",p:4,l:"925/?/975",g:[["52975000",6],["52971000",2],["52958000",5],["2431000",2],["2445000",2]]},
 {i:"54479000",n:"Mobil sátor",p:4,l:"950/?/1000",g:[["52962000",5],["52966000",4],["52942000",3],["1917000",2],["2730000",2]]}
@@ -864,8 +1203,9 @@ const RECIPES = [
 const $ = id => document.getElementById(id);
 const STORE = "twcalc.v2";
 let stock = {}, names = Object.assign({}, BASE_NAMES), levels = {};
+let char = null, learned = null;   /* a játékból beolvasott karakter és megtanult receptjei */
 let recipeMap = new Map(), baseIds = [];
-let sel = { prof:1, recipe:null, qty:1, mode:"tree" };
+let sel = { prof:1, recipe:null, qty:1, mode:"tree", targets:[] };
 let plan = null, needOrder = [];
 
 DATA_INIT();
@@ -877,6 +1217,9 @@ function DATA_INIT(){
 }
 const nameOf = id => recipeMap.get(id)?.n || names[id] || "#" + id;
 const profOf = p => PROFS.find(x => x.id === p)?.name || "";
+const ico = (id, cls) => ITEM_IMG[id]
+  ? `<img class="ico${cls ? " " + cls : ""}" src="${IMG_BASE}${ITEM_IMG[id]}" alt="" loading="lazy" onerror="this.style.display='none'">`
+  : "";
 const profIds = p => Array.isArray(p) ? p : [p];
 const profLabel = p => Array.isArray(p)
   ? (p.length >= PROFS.length ? "Minden mesterség" : p.map(profOf).join(" / "))
@@ -898,9 +1241,9 @@ function save(){
       const custom = {};
       Object.keys(names).forEach(k => { if(names[k] !== BASE_NAMES[k]) custom[k] = names[k]; });
       localStorage.setItem(STORE, JSON.stringify({
-        stock, names:custom, levels, theme:document.documentElement.dataset.theme,
-        icons:document.documentElement.dataset.icons,
-        recipe:sel.recipe, prof:sel.prof, qty:sel.qty, mode:sel.mode
+        stock, names:custom, levels, char, learned, theme:document.documentElement.dataset.theme,
+        icons:document.documentElement.dataset.icons === "0" ? 0 : 1,
+        recipe:sel.recipe, prof:sel.prof, qty:sel.qty, mode:sel.mode, targets:sel.targets
       }));
       const el = $("saved"); el.style.opacity = 1; setTimeout(() => el.style.opacity = 0, 1200);
     }catch(e){}
@@ -912,31 +1255,72 @@ function load(){
     if(p.stock) stock = p.stock;
     if(p.names) names = Object.assign({}, BASE_NAMES, p.names);
     if(p.levels) levels = p.levels;
+    if(p.char) char = p.char;
+    if(Array.isArray(p.learned)) learned = p.learned;
     if(p.theme) document.documentElement.dataset.theme = p.theme;
-    if(p.icons) document.documentElement.dataset.icons = p.icons;
+    if(p.icons === 0) document.documentElement.dataset.icons = "0";
     if(p.prof) sel.prof = p.prof;
     if(p.qty) sel.qty = p.qty;
     if(p.mode) sel.mode = p.mode === "todo" ? "all" : p.mode;
     if(p.recipe && RECIPES.some(r => r.i === p.recipe)) sel.recipe = p.recipe;
+    if(Array.isArray(p.targets)) setTargets(p.targets);
   }catch(e){}
 }
 
+/* ---- visszavonás: raktár-pillanatképek ---- */
+const undoStack = [];
+function snapshot(label){
+  undoStack.push({ stock:JSON.parse(JSON.stringify(stock)), label });
+  if(undoStack.length > 20) undoStack.shift();
+  refreshUndo();
+}
+function refreshUndo(){
+  const b = $("undo");
+  if(!b) return;
+  b.style.opacity = undoStack.length ? 1 : .35;
+  b.title = undoStack.length
+    ? `Visszavonás: ${undoStack[undoStack.length-1].label}`
+    : "Nincs mit visszavonni";
+}
+function undo(){
+  const prev = undoStack.pop();
+  if(!prev) return;
+  stock = prev.stock;
+  refreshUndo(); renderPlan(); renderRecipes(); save();
+  if(!$("stockView").hidden) renderStock();
+  flashSaved(`Visszavonva: ${prev.label}`);
+}
+function flashSaved(txt){
+  const el = $("saved");
+  el.textContent = txt; el.style.opacity = 1;
+  setTimeout(() => { el.style.opacity = 0; el.textContent = "Mentve"; }, 2500);
+}
+
 /* ======================= számolás ======================= */
-function chain(rootId){
+function chain(rootIds){
   const depth = new Map();
-  (function walk(id, d, path){
+  const walk = (id, d, path) => {
     if(path.includes(id)) return;
     depth.set(id, Math.max(depth.get(id) ?? 0, d));
     const r = recipeMap.get(id);
     if(r) r.g.forEach(([gid]) => walk(gid, d + 1, [...path, id]));
-  })(rootId, 0, []);
+  };
+  rootIds.forEach(id => walk(id, 0, []));
   return [...depth.entries()].sort((a,b) => a[1] - b[1]).map(e => e[0]);
 }
-function compute(rootId, qty){
+/* targets: [{i, q}] — egyszerre több végtermék is tervezhető */
+/* a célként megjelölt termékek saját készlete alapból nem számít bele */
+function planPool(ts){
   const pool = Object.assign({}, stock);
-  const need = { [rootId]: qty };
+  ts.forEach(t => { if(t.x !== false) delete pool[t.i]; });
+  return pool;
+}
+function compute(targets){
+  const pool = planPool(targets);
+  const need = {};
+  targets.forEach(t => { need[t.i] = (need[t.i] || 0) + t.q; });
   const base = [], steps = [], byId = {};
-  for(const id of chain(rootId)){
+  for(const id of chain(targets.map(t => t.i))){
     const n = need[id] || 0;
     const have = Math.min(pool[id] || 0, n);
     const rest = n - have;
@@ -956,26 +1340,62 @@ function compute(rootId, qty){
   return { base, steps, byId, pct: totalNeed ? Math.round(covered / totalNeed * 100) : 100,
            missing: base.reduce((a,b) => a + b.rest, 0), crafts: steps.reduce((a,s) => a + s.batches, 0) };
 }
+const lockLabel = t => !t ? "" : (t >= 86400 ? (t/86400) + " napos zárolás" : (t/3600) + " órás zárolás");
+function targets(){
+  if(!sel.targets.length && sel.recipe) return [{ i:sel.recipe, q:sel.qty }];
+  return sel.targets;
+}
+function setTargets(list){
+  sel.targets = list.filter(t => recipeMap.has(t.i) && t.q >= 0)
+                    .map(t => ({ i:t.i, q:t.q, x:t.x !== false }));
+  if(sel.targets.length){ sel.recipe = sel.targets[0].i; sel.qty = sel.targets[0].q; }
+}
+
+/* szint fölötti-e: ha bármelyik szakmájához megadott szint elég, akkor nem az */
+function overLevel(r){
+  const ps = profIds(r.p);
+  const given = ps.map(x => levels[x]).filter(v => v !== undefined && v !== "");
+  if(!given.length) return false;
+  return !given.some(v => minLvl(r) <= Number(v));
+}
+
+/* nincs meg a recepted — csak akkor tudjuk, ha a játékból beolvastuk */
+const unlearned = r => !!learned && !learned.includes(r.i);
+
 const canCraftNow = r => r.g.every(([id, q]) => (stock[id] || 0) >= q);
 
 /* ======================= receptlista ======================= */
 function renderRecipes(){
   const q = $("search").value.trim().toLowerCase();
+  const ready = $("onlyReady").checked;
+  const mine = char && $("onlyMine").checked;
   const list = RECIPES
     .filter(r => q ? r.n.toLowerCase().includes(q) : profIds(r.p).includes(sel.prof))
+    .filter(r => !mine || profIds(r.p).includes(char.prof))
+    .filter(r => !ready || (canCraftNow(r) && !overLevel(r) && !unlearned(r)))
     .sort((a,b) => minLvl(a) - minLvl(b) || a.n.localeCompare(b.n,"hu"));
   $("recipeCount").textContent = list.length + " db";
+  if(!list.length && ready){
+    $("recipeCount").textContent = "0 db";
+    $("rlist").innerHTML = `<p class="empty">Ebből a mesterségből most egyet sem tudsz legyártani — vagy hiányzik hozzávaló, vagy magasabb szint kell.</p>`;
+    return;
+  }
   $("rlist").innerHTML = list.map(r => {
-    const lv = levels[r.p];
-    const locked = lv != null && lv !== "" && minLvl(r) > Number(lv);
-    const state = locked ? "" : canCraftNow(r) ? "ready" : "close";
-    return `<li><button data-pick="${r.i}" class="${locked ? "locked" : ""}" ${r.i === sel.recipe ? 'aria-current="true"' : ""}>
-      <i class="dot ${state}"></i>
-      <span class="nmwrap">${ico(r.i)}<span class="rname">${r.n}${q ? `<small>${profLabel(r.p)}</small>` : ""}</span></span>
-      <span class="rlvl">${minLvl(r)}</span></button></li>`;
+    const locked = overLevel(r);
+    const nolearn = unlearned(r);
+    const state = (locked || nolearn) ? "" : canCraftNow(r) ? "ready" : "close";
+    return `<li>
+      <button data-pick="${r.i}" class="${locked ? "locked" : nolearn ? "unlearned" : ""}"
+        title="${locked ? "Magasabb mesterségszint kell hozzá" : nolearn ? "Nincs meg a recepted" : ""}"
+        ${r.i === sel.recipe ? 'aria-current="true"' : ""}>
+        <i class="dot ${state}"></i>
+        <span class="nmwrap">${ico(r.i)}<span class="rname">${r.n}<small>${
+          q ? profLabel(r.p) + " · " : ""}${minLvl(r)}. szint</small></span></span></button>
+      </li>`;
   }).join("") || `<p class="empty">Nincs ilyen nevű recept.</p>`;
   $("rlist").querySelectorAll("[data-pick]").forEach(b => {
     b.onclick = () => { sel.recipe = b.dataset.pick;
+          setTargets([{ i:sel.recipe, q:1 }]);
       const ps = profIds(recipeMap.get(sel.recipe).p);
       if(!ps.includes(sel.prof)) sel.prof = ps[0];
       renderChips(); syncLevel(); renderRecipes(); renderPlan(); save(); };
@@ -989,18 +1409,35 @@ function renderChips(){
       renderChips(); renderRecipes(); syncLevel(); save(); };
   });
 }
+function renderChar(){
+  const bar = $("charBar"), wrap = $("mineWrap");
+  if(!char){ bar.hidden = true; wrap.hidden = true; return; }
+  bar.hidden = false; wrap.hidden = false;
+  bar.className = "charbar";
+  bar.innerHTML = `<span class="badge">${char.name.slice(0,2).toUpperCase()}</span>
+    <span><b>${char.name}</b><small>${profOf(char.prof)} · ${char.skill}. szint${
+      learned ? ` · ${learned.length} recept` : ""}</small></span>`;
+}
 function syncLevel(){ $("lvl").value = levels[sel.prof] ?? ""; }
 
 /* ======================= munkalap ======================= */
 function renderPlan(){
-  const r = recipeMap.get(sel.recipe);
-  if(!r) return;
-  plan = compute(sel.recipe, sel.qty);
+  const ts = targets();
+  if(!ts.length) return;
+  plan = compute(ts);
+  const r = recipeMap.get(ts[0].i);
   $("orderName").textContent = r.n;
-  $("orderMeta").textContent = `${profLabel(r.p)} · ${r.l}`;
-  const oi = $("orderIco"), f = ITEM_IMG[r.i];
-  if(f){ oi.src = IMG_BASE + f; oi.style.display = ""; } else { oi.removeAttribute("src"); oi.style.display = "none"; }
-  $("qty").value = sel.qty;
+  const oi = $("orderIco");
+  if(ITEM_IMG[r.i]){ oi.src = IMG_BASE + ITEM_IMG[r.i]; oi.hidden = false; } else oi.hidden = true;
+  $("orderMeta").innerHTML = `${profLabel(r.p)} · ${r.l}` +
+    (r.t ? ` · <span style="color:var(--brass)">${lockLabel(r.t)}</span>` : "");
+  $("qty").value = ts[0].q;
+  const have = stock[r.i] || 0;
+  $("excl").checked = ts[0].x !== false;
+  $("exclTxt").textContent = have
+    ? `A raktáradban lévő ${have} db nem számít bele`
+    : "A meglévő készlet nem számít bele";
+
   const arc = 2 * Math.PI * 38;
   $("ringArc").setAttribute("stroke-dashoffset", arc * (1 - plan.pct / 100));
   $("ringPct").textContent = plan.pct + "%";
@@ -1014,20 +1451,22 @@ function buildTree(id, need, path, pool){
   pool[id] = (pool[id] || 0) - have;
   const rest = need - have;
   const node = { id, name:nameOf(id), need, have, rest, craft:!!r, kids:[] };
-  if(!r || rest === 0) return node;
+  if(r){ node.p = r.p; node.lvl = r.l; node.t = r.t; }
+  if(!r || rest === 0){ node.batches = 0; return node; }
   if(path.includes(id)){ node.cycle = true; return node; }
-  node.p = r.p; node.lvl = r.l; node.batches = rest;
+  node.batches = rest;
   node.kids = r.g.map(([gid, q]) => buildTree(gid, q * rest, [...path, id], pool));
   return node;
 }
 function treeHTML(node, root){
-  const covered = node.rest === 0 && !root;
+  const covered = node.rest === 0;
   const short = !node.craft && node.rest > 0;
   const cls = ["node", root ? "root" : node.craft ? "craft" : "base",
-               covered ? "covered" : "", short ? "short" : ""].filter(Boolean).join(" ");
+               (covered && !root) ? "covered" : "", short ? "short" : ""].filter(Boolean).join(" ");
   let meta = "";
   if(node.cycle) meta = `<span class="mt">körkörös recept</span>`;
   else if(node.craft) meta = `<span class="mt">${profLabel(node.p)} · ${node.lvl}</span>` +
+    (node.t ? `<span class="lock">${lockLabel(node.t)}</span>` : "") +
     (covered ? `<span class="mt ok">raktárból fedezve</span>`
              : `<span class="mt">${node.have ? node.have + " raktárból · " : ""}${node.batches}× gyártás</span>`);
   else meta = node.rest === 0
@@ -1037,15 +1476,17 @@ function treeHTML(node, root){
   return `<li class="${kids ? "has-kids" : ""}">
     <div class="${cls}">${kids ? `<button class="toggle" aria-label="Ág nyitása és zárása"></button>`
                                 : `<span style="width:18px;display:inline-block"></span>`}
-      <span class="q">${node.need} ×</span>${ico(node.id, "sm")}<span class="nm">${node.name}</span>${meta}</div>
+      <span class="q">${node.need} ×</span>${ico(node.id,"sm")}<span class="nm">${node.name}</span>${meta}</div>
     ${kids ? `<ul>${node.kids.map(k => treeHTML(k)).join("")}</ul>` : ""}</li>`;
 }
 function renderTree(){
-  const root = buildTree(sel.recipe, sel.qty, [], Object.assign({}, stock));
+  const ts = targets();
+  const pool = planPool(ts);
+  const forest = ts.map(t => buildTree(t.i, t.q, [], pool));
   $("steps").className = "tree";
   $("steps").innerHTML = `<div class="treebar">
       <button data-tb="open">Mind kinyit</button><button data-tb="close">Mind bezár</button></div>` +
-    treeHTML(root, true);
+    forest.map(n => treeHTML(n, true)).join("");
   $("steps").querySelectorAll(".toggle").forEach(t => {
     t.onclick = () => t.closest("li").classList.toggle("collapsed");
   });
@@ -1120,20 +1561,48 @@ function renderSteps(){
           return `<span class="ing ${ok ? "ok" : "miss"}"><b>${q * s.batches}</b> ${nameOf(gid)}</span>`;
         }).join("");
     return `<li class="step ${cls}">
-      <div class="step-head"><span class="step-n">${n}.</span>${ico(s.id, "lg")}
+      <div class="step-head"><span class="step-n">${n}.</span>${ico(s.id,"lg")}
         <span class="step-title">${s.name}</span>
         <span class="who">${profLabel(s.p)}</span>
-        <span class="step-count">${s.batches ? s.batches + "× gyártás" : "raktárból"}</span></div>
+        ${rec && rec.t ? `<span class="lock">${lockLabel(rec.t)}</span>` : ""}
+        <span class="step-count">${s.batches ? s.batches + "× gyártás" : "raktárból"}</span>
+        ${s.batches ? `<button class="done-btn" data-done="${s.id}" ${canCraftNow(rec) ? "" : "disabled"}
+           title="${canCraftNow(rec) ? "Levonja a hozzávalókat és hozzáadja a terméket a raktárhoz"
+                                     : "Nincs meg minden hozzávaló a raktárban"}">✓ Legyártottam</button>` : ""}</div>
       <div class="ings">${ings}</div></li>`;
   }).join("") || `<li class="step done"><div class="step-head"><span class="step-title">Nincs mit gyártani — minden megvan a raktárban.</span></div></li>`;
+  ul.querySelectorAll("[data-done]").forEach(btn => {
+    btn.onclick = () => logCraft(btn.dataset.done);
+  });
+}
+
+/* egy gyártás lekönyvelése: hozzávalók le, termék fel */
+function logCraft(id){
+  const r = recipeMap.get(id);
+  if(!r || !canCraftNow(r)) return;
+  snapshot(`${r.n} legyártása`);
+  r.g.forEach(([gid, q]) => {
+    const left = (stock[gid] || 0) - q;
+    if(left > 0) stock[gid] = left; else delete stock[gid];
+  });
+  stock[id] = (stock[id] || 0) + 1;
+  const t = sel.targets.find(x => x.i === id);
+  if(t && t.x !== false){
+    t.q = Math.max(0, t.q - 1);
+    if(t.q === 0 && sel.targets.length > 1)
+      setTargets(sel.targets.filter(x => x.i !== id));
+    else if(t.q === 0)
+      flashSaved(`${r.n}: a terv elkészült`);
+  }
+  renderPlan(); renderRecipes(); save();
+  flashSaved(`${r.n} legyártva`);
 }
 function renderNeeds(){
   $("needCount").textContent = plan.base.length + " tétel";
   $("needs").innerHTML = needOrder.map(id => {
     const b = plan.byId[id];
     return `<li class="need" data-need="${id}">
-      <div class="needmain">${ico(id, "lg")}
-        <div><div class="nm">${b.name}</div><div class="sub" data-sub="${id}"></div>
+      <div class="needmain">${ico(id,"lg")}<div><div class="nm">${b.name}</div><div class="sub" data-sub="${id}"></div>
         <div class="miniset"><button data-dec="${id}">−</button>
           <input data-in="${id}" inputmode="numeric" value="${stock[id] || 0}" aria-label="${b.name} készlet">
           <button data-inc="${id}">+</button></div></div></div>
@@ -1151,7 +1620,7 @@ function renderNeeds(){
   refreshNumbers();
 }
 function refreshNumbers(){
-  plan = compute(sel.recipe, sel.qty);
+  plan = compute(targets());
   const arc = 2 * Math.PI * 38;
   $("ringArc").setAttribute("stroke-dashoffset", arc * (1 - plan.pct / 100));
   $("ringPct").textContent = plan.pct + "%";
@@ -1217,7 +1686,8 @@ function renderStock(){
     list.sort((a,b) => a.name.localeCompare(b.name,"hu"));
     html += `<h3 class="whgroup"><span>${g}</span><span>${list.length} tétel</span></h3><ul class="whrows">` +
       list.map(it => `<li class="${stock[it.id] ? "owned" : ""}" data-wrow="${it.id}">
-        <span class="nmwrap">${ico(it.id)}<span class="nm">${it.name}${it.sub ? `<small>${it.sub}</small>` : ""}</span></span>
+        <span class="nmwrap" data-use-item="${it.id}" title="Mely receptekben szerepel?"
+          style="cursor:pointer">${ico(it.id)}<span class="nm">${it.name}${it.sub ? `<small>${it.sub}</small>` : ""}</span></span>
         <input data-wh="${it.id}" inputmode="numeric" value="${stock[it.id] || 0}" aria-label="${it.name} mennyiség">
         <button class="wipe" data-wipe="${it.id}" title="Nullázás">×</button></li>`).join("") + `</ul>`;
   });
@@ -1233,6 +1703,9 @@ function renderStock(){
       stockMeta(); save();
     };
   });
+  $("stockGroups").querySelectorAll("[data-use-item]").forEach(el => {
+    el.onclick = () => showUses(el.dataset.useItem);
+  });
   $("stockGroups").querySelectorAll("[data-wipe]").forEach(b => {
     b.onclick = () => { delete stock[b.dataset.wipe]; renderStock(); save(); };
   });
@@ -1243,16 +1716,207 @@ function stockMeta(){
   $("stockMeta").textContent = `${kinds} féle · összesen ${total} db`;
 }
 
+/* ======================= import ======================= */
+const norm = t => t.toLowerCase().replace(/\s+/g," ").replace(/[.,;:!]+$/,"").trim();
+let nameIndex = null;
+function buildNameIndex(){
+  nameIndex = new Map();
+  baseIds.forEach(id => nameIndex.set(norm(nameOf(id)), id));
+  RECIPES.forEach(r => { if(!nameIndex.has(norm(r.n))) nameIndex.set(norm(r.n), r.i); });
+}
+function parseInventory(text){
+  if(!nameIndex) buildNameIndex();
+  const found = {}, unknown = [];
+  const add = (id, q) => { if(id && q > 0) found[id] = (found[id] || 0) + q; };
+  const known = id => recipeMap.has(id) || baseIds.includes(id);
+
+  /* --- tw-calc raktároldal forrása: item_id + count --- */
+  if(/item_id="\d+"/.test(text) || /href="\/item\/\d+"/.test(text)){
+    const re = /(?:item_id="(\d+)"|href="\/item\/(\d+)")([\s\S]{0,400}?)<\/a>/g;
+    let m, hit = false;
+    while((m = re.exec(text)) !== null){
+      const id = m[1] || m[2];
+      if(!known(id)) continue;
+      const c = m[3].match(/class="count"[^>]*>\s*<p>(\d+)<\/p>/);
+      add(id, c ? parseInt(c[1]) : 1);
+      hit = true;
+    }
+    if(hit) return { found, unknown };
+  }
+
+  if(/^[\d,: ]+$/.test(text.trim()) && text.includes(":")){
+    const sh = parseShort(text.trim().replace(/\s/g,""));
+    if(Object.keys(sh).length){ Object.entries(sh).forEach(([id,q]) => add(id,q)); return { found, unknown }; }
+  }
+
+  const t = text.trim();
+  if(t.startsWith("{")){
+    try{
+      const o = JSON.parse(t);
+      const src = o.stock && typeof o.stock === "object" ? o.stock : o;
+      let hit = false;
+      Object.entries(src).forEach(([k, v]) => {
+        const q = parseInt(v);
+        if(known(k) && q > 0){ add(k, q); hit = true; }
+      });
+      if(hit) return { found, unknown };
+    }catch(e){}
+  }
+
+  text.split(/[\r\n]+/).forEach(raw => {
+    const line = raw.replace(/\s+/g," ").trim();
+    if(!line) return;
+    const code = line.match(/\[item=(\d+)\]/);
+    if(code){
+      const q = (line.match(/(\d+)\s*(?:x|×|db)?\s*\[item=/i) || [])[1];
+      if(known(code[1]) && q) { add(code[1], parseInt(q)); return; }
+    }
+    let m = line.match(/^(\d+)\s*(?:x|×|db)?[\s.:\-–]+(.+)$/i);
+    if(m && nameIndex.has(norm(m[2]))){ add(nameIndex.get(norm(m[2])), parseInt(m[1])); return; }
+    m = line.match(/^(.+?)[\s\t:.\-–]+(\d+)\s*(?:db|x|×)?$/i);
+    if(m && nameIndex.has(norm(m[1]))){ add(nameIndex.get(norm(m[1])), parseInt(m[2])); return; }
+    if(nameIndex.has(norm(line))) return;      /* név mennyiség nélkül — kihagyjuk, de nem hiba */
+    unknown.push(line);
+  });
+  return { found, unknown };
+}
+function renderImportPreview(){
+  const { found, unknown } = parseInventory($("impText").value);
+  const ids = Object.keys(found);
+  window.__imp = found;
+  $("impApply").disabled = ids.length === 0;
+  if(!ids.length){
+    $("impPreview").innerHTML = `<p class="hintline">Egyetlen tételt sem sikerült felismerni. Ellenőrizd, hogy a nevek vagy az azonosítók szerepelnek-e a szövegben.</p>`;
+    return;
+  }
+  const chips = ids.slice(0, 60).map(id =>
+    `<span class="ing ok"><b>${found[id]}</b> ${nameOf(id)}</span>`).join("");
+  $("impPreview").innerHTML =
+    `<p class="hintline">Felismerve: <b>${ids.length} tétel</b>${unknown.length
+      ? ` · ${unknown.length} sort kihagy` : ""}.</p>
+     <div class="ings" style="max-height:180px;overflow:auto">${chips}${
+       ids.length > 60 ? `<span class="ing">…és még ${ids.length - 60}</span>` : ""}</div>`;
+}
+
+/* ---- rövid formátum: 711:48,1855:81 ---- */
+function parseShort(str){
+  const out = {};
+  str.split(",").forEach(pair => {
+    const m = pair.match(/^(\d+):(\d+)$/);
+    if(!m) return;
+    const id = m[1].length > 4 || Number(m[1]) < 100000 ? m[1] + "000" : m[1];
+    if(recipeMap.has(id) || baseIds.includes(id)) out[id] = parseInt(m[2]);
+  });
+  return out;
+}
+function buildBookmarklet(){
+  const ids = [...baseIds, ...RECIPES.map(r => r.i)].map(i => Number(i) / 1000);
+  const target = location.origin + location.pathname;
+  const code =
+    "javascript:(function(){var W=window;if(!W.Bag){for(var i=0;i<W.frames.length;i++){try{if(W.frames[i].Bag){W=W.frames[i];break}}catch(e){}}}" +
+    "var B=W.Bag;if(!B||!B.getItemCount){alert('Ezt a gombot a futo The West jatekablakban kell megnyomni.');return}" +
+    "var I=[" + ids.join(",") + "],o=[];for(var j=0;j<I.length;j++){var c=0;try{c=B.getItemCount(I[j]*1000)||0}catch(e){}if(c>0)o.push(I[j]+':'+c)}" +
+    "var q='imp='+o.join(',');" +
+    "try{var C=W.Character;if(C&&C.name)q+='&k='+encodeURIComponent(C.name+'|'+(C.professionId||0)+'|'+(C.professionSkill||0))}catch(e){}" +
+    "try{var R=W.Crafting&&W.Crafting.recipes;if(R){var t=[],all=0;for(var k in R){var r=R[k];if(!r)continue;all++;" +
+    "if(Object.prototype.hasOwnProperty.call(r,'last_craft')&&r.craftitem)t.push(r.craftitem/1000)}" +
+    "if(t.length)q+='&t='+t.join(',')}}catch(e){}" +
+    "var u='" + target + "#'+q;var w=window.open(u,'_blank');" +
+    "if(!w){try{navigator.clipboard.writeText(u)}catch(e){}prompt('A megnyitas le lett tiltva. Masold ki ezt a cimet:',u)}})()";
+  $("bmLink").setAttribute("href", code);
+}
+function importFromHash(){
+  const h = location.hash.replace(/^#/, "");
+  if(!h) return;
+  const parts = {};
+  h.split("&").forEach(seg => {
+    const i = seg.indexOf("=");
+    if(i > 0) parts[seg.slice(0, i)] = decodeURIComponent(seg.slice(i + 1));
+  });
+  if(!parts.imp && !parts.k) return;
+  history.replaceState(null, "", location.pathname);
+  const msg = [];
+
+  if(parts.imp){
+    const found = parseShort(parts.imp);
+    const n = Object.keys(found).length;
+    if(n){ stock = found; msg.push(`${n} tétel`); }
+  }
+  if(parts.k){
+    const bits = parts.k.split("|");
+    const pid = Number(bits[1]);
+    if(bits[0] && PROFS.some(x => x.id === pid)){
+      char = { name:bits[0], prof:pid, skill:Number(bits[2]) || 0 };
+      levels[pid] = char.skill;
+      sel.prof = pid;
+      msg.push(`${char.name} · ${profOf(pid)} ${char.skill}`);
+    }
+  }
+  if(parts.t !== undefined){
+    learned = parts.t ? parts.t.split(",").map(x => x + "000").filter(x => recipeMap.has(x)) : null;
+    if(learned && learned.length) msg.push(`${learned.length} megtanult recept`);
+  }
+  save();
+  renderChar(); renderChips(); syncLevel(); renderRecipes(); renderPlan();
+  if(parts.imp){ showView(true); renderStock(); }
+  if(msg.length) flashSaved("Beolvasva: " + msg.join(" · "));
+}
+
+
+/* ---- mire jó egy alapanyag ---- */
+function showUses(id){
+  const uses = RECIPES.filter(r => r.g.some(([gid]) => gid === id))
+    .sort((a,b) => minLvl(a) - minLvl(b));
+  $("useTitle").innerHTML = `${ico(id,"lg")} ${nameOf(id)}`;
+  $("useSub").textContent = uses.length
+    ? `${uses.length} receptben szerepel. Kattints egyre, és megnyílik a munkalapon.`
+    : "Ez a tétel egyetlen receptben sem hozzávaló — végtermék.";
+  $("useList").innerHTML = uses.map(r => {
+    const q = r.g.find(([gid]) => gid === id)[1];
+    return `<button class="trow" data-use="${r.i}" style="width:100%;background:none;border:0;
+      border-bottom:1px dotted var(--line);cursor:pointer;text-align:left">
+      ${ico(r.i,"lg")}
+      <div class="tname">${r.n}<small>${profLabel(r.p)} · ${r.l}</small></div>
+      <div style="font-family:'Space Mono',monospace;font-size:13px;color:var(--brass)">${q} db</div>
+      <span></span></button>`;
+  }).join("");
+  $("useList").querySelectorAll("[data-use]").forEach(b => {
+    b.onclick = () => {
+      setTargets([{ i:b.dataset.use, q:1 }]);
+      sel.prof = profIds(recipeMap.get(b.dataset.use).p)[0];
+      $("useDlg").close(); showView(false);
+      renderChips(); syncLevel(); renderRecipes(); renderPlan(); save();
+    };
+  });
+  $("useDlg").showModal();
+}
+$("useClose").onclick = () => $("useDlg").close();
+
 /* ======================= vezérlők ======================= */
 $("search").oninput = renderRecipes;
+$("onlyReady").onchange = renderRecipes;
+$("onlyMine").onchange = renderRecipes;
 $("lvl").oninput = () => {
   const v = $("lvl").value.trim();
   if(v === "") delete levels[sel.prof]; else levels[sel.prof] = Number(v);
   renderRecipes(); save();
 };
-$("qtyMinus").onclick = () => { sel.qty = Math.max(1, sel.qty - 1); renderPlan(); save(); };
-$("qtyPlus").onclick  = () => { sel.qty = Math.min(999, sel.qty + 1); renderPlan(); save(); };
-$("qty").oninput = () => { sel.qty = Math.min(999, Math.max(1, parseInt($("qty").value) || 1)); renderPlan(); save(); };
+const setQty = v => {
+  sel.qty = Math.min(999, Math.max(0, isNaN(v) ? 1 : v));
+  if(sel.targets.length === 1) sel.targets[0].q = sel.qty;
+  renderPlan(); save();
+};
+$("excl").onchange = () => {
+  const ts = targets();
+  if(ts.length === 1){
+    if(!sel.targets.length) setTargets([{ i:sel.recipe, q:sel.qty }]);
+    sel.targets[0].x = $("excl").checked;
+    renderPlan(); save();
+  }
+};
+$("qtyMinus").onclick = () => setQty(sel.qty - 1);
+$("qtyPlus").onclick  = () => setQty(sel.qty + 1);
+$("qty").oninput = () => setQty(parseInt($("qty").value));
 $("seg").querySelectorAll("[data-mode]").forEach(b => {
   b.onclick = () => {
     sel.mode = b.dataset.mode;
@@ -1280,14 +1944,16 @@ $("stockSearch").oninput = renderStock;
 $("onlyOwned").onchange = renderStock;
 $("stockClear").onclick = () => {
   if(!confirm("Biztosan törlöd a teljes raktárkészletet?")) return;
+  snapshot("raktár nullázása");
   stock = {}; renderStock(); save();
 };
-$("icoBtn").onclick = () => {
+$("icons").onclick = () => {
   const on = document.documentElement.dataset.icons !== "0";
   document.documentElement.dataset.icons = on ? "0" : "1";
-  $("icoBtn").textContent = on ? "▢" : "▣";
+  $("icons").style.opacity = on ? .45 : 1;
   save();
 };
+$("undo").onclick = undo;
 $("theme").onclick = () => {
   const dark = document.documentElement.dataset.theme !== "light";
   document.documentElement.dataset.theme = dark ? "light" : "dark";
@@ -1296,6 +1962,36 @@ $("theme").onclick = () => {
 };
 
 /* --- adatok mentése / visszatöltése --- */
+$("openImp").onclick = () => {
+  $("impText").value = ""; $("impPreview").innerHTML = ""; $("impMsg").textContent = "";
+  $("impApply").disabled = true; buildBookmarklet(); $("impDlg").showModal();
+};
+$("impClose").onclick = () => $("impDlg").close();
+$("impCheck").onclick = renderImportPreview;
+$("impPaste").onclick = async () => {
+  try{
+    const t = await navigator.clipboard.readText();
+    if(!t.trim()){ $("impMsg").className = "msg err"; $("impMsg").textContent = "A vágólap üres."; return; }
+    $("impText").value = t;
+    renderImportPreview();
+    $("impMsg").className = "msg"; $("impMsg").textContent = "Vágólapról beolvasva — ellenőrizd, majd Beolvasás.";
+  }catch(e){
+    $("impMsg").className = "msg err";
+    $("impMsg").textContent = "A böngésző nem engedte a vágólapot — illeszd be kézzel (Ctrl+V).";
+  }
+};
+$("impText").oninput = () => { $("impApply").disabled = true; $("impMsg").textContent = ""; };
+$("impApply").onclick = () => {
+  const found = window.__imp || {};
+  const mode = document.querySelector('input[name=impMode]:checked').value;
+  snapshot("raktár importálása");
+  if(mode === "replace") stock = {};
+  Object.entries(found).forEach(([id, q]) => { stock[id] = (stock[id] || 0) + q; });
+  renderStock(); save();
+  $("impMsg").className = "msg";
+  $("impMsg").textContent = `Beolvasva: ${Object.keys(found).length} tétel.`;
+};
+
 $("openData").onclick = () => {
   const custom = {};
   Object.keys(names).forEach(k => { if(names[k] !== BASE_NAMES[k]) custom[k] = names[k]; });
@@ -1325,12 +2021,16 @@ $("dataDownload").onclick = () => {
 
 /* ======================= indulás ======================= */
 load();
-if(!sel.recipe) sel.recipe = RECIPES.find(r => r.p === sel.prof).i;
+if(!sel.recipe) sel.recipe = RECIPES.find(r => profIds(r.p).includes(sel.prof)).i;
+if(!sel.targets.length) setTargets([{ i:sel.recipe, q:sel.qty || 1 }]);
 $("theme").textContent = document.documentElement.dataset.theme === "light" ? "☀" : "☾";
-$("icoBtn").textContent = document.documentElement.dataset.icons === "0" ? "▢" : "▣";
+$("icons").style.opacity = document.documentElement.dataset.icons === "0" ? .45 : 1;
+renderChar();
+refreshUndo();
 $("seg").querySelectorAll("[data-mode]").forEach(x =>
   x.setAttribute("aria-selected", x.dataset.mode === sel.mode));
 renderChips(); syncLevel(); renderRecipes(); renderPlan();
+importFromHash();
 </script>
 </body>
 </html>
