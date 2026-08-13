@@ -75,10 +75,13 @@ button,input{font-family:inherit;color:inherit;font-size:inherit}
   border-radius:6px;padding:8px 10px;margin-bottom:10px}
 .charbar b{font-size:14.5px;line-height:1.15}
 .charbar small{display:block;font-family:"Space Mono",monospace;font-size:10px;color:var(--dim)}
-.charbar .avatarbox{position:relative;width:44px;height:44px;overflow:hidden;flex:0 0 auto;
-  border-radius:6px;border:1px solid var(--line);background:var(--raised)}
-.charbar .avatarbox > div{position:absolute;transform:scale(.611);transform-origin:0 0}
-.charbar .avatarbox img{position:absolute;max-width:none}
+/* a játék 72x72-es avatarja: a belső rétegszerkezethez nem nyúlunk,
+   csak az egészet kicsinyítjük 44 képpontra */
+.charbar .avatarbox{width:44px;height:44px;flex:0 0 auto;overflow:hidden;
+  border-radius:6px;border:1px solid var(--line);background:var(--raised);
+  display:block;position:relative}
+.charbar .avatarbox .avatarinner{width:72px;height:72px;position:absolute;left:0;top:0;
+  transform:scale(0.6111);transform-origin:0 0}
 .charbar .badge{width:26px;height:26px;border-radius:50%;background:var(--raised);
   display:grid;place-items:center;font-family:"Space Mono",monospace;font-size:11px;color:var(--brass);
   border:1px solid var(--line);flex:0 0 auto}
@@ -1424,7 +1427,7 @@ function renderChar(){
   bar.hidden = false; wrap.hidden = !learned;
   bar.className = "charbar";
   bar.innerHTML = (avatar
-      ? `<span class="avatarbox">${avatar}</span>`
+      ? `<span class="avatarbox"><span class="avatarinner">${avatar}</span></span>`
       : `<span class="badge">${char.name.slice(0,2).toUpperCase()}</span>`)
     + `<span><b>${char.name}</b><small>${profOf(char.prof)} ${char.skill}${
       learned ? ` · ${learned.length} recept` : ""}</small></span>`;
