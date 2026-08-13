@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      1.4-teszt
+// @version      1.5-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -22,6 +22,7 @@
 // @grant        GM_setClipboard
 // @grant        GM_openInTab
 // @run-at       document-start
+// @priority     100
 // ==/UserScript==
 
 /* =======================================================================
@@ -157,7 +158,55 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         });
     }
 
+    /* Amint a Crafting objektum megjelenik, azonnal ráülünk — még azelőtt,
+       hogy más kiegészítő hozzáférne. A recipes tulajdonságot figyeljük:
+       minden beírt értékből kimentjük a last_craft mezős recepteket. */
+    function guardCrafting() {
+        const W = game();
+        if (W.__mkGuard) return;
+        let target = W.Crafting;
+
+        const grab = obj => {
+            if (!obj) return;
+            try {
+                Object.keys(obj).forEach(k => {
+                    const r = obj[k];
+                    if (r && Object.prototype.hasOwnProperty.call(r, "last_craft") && r.craftitem)
+                        learnedSet.add(r.craftitem / 1000);
+                });
+            } catch (e) { /* nem baj */ }
+        };
+
+        const hook = C => {
+            if (!C || C.__mkHooked) return;
+            let store = C.recipes;
+            grab(store);
+            try {
+                Object.defineProperty(C, "recipes", {
+                    configurable: true,
+                    enumerable: true,
+                    get() { return store; },
+                    set(v) { grab(v); store = v; }
+                });
+                C.__mkHooked = true;
+            } catch (e) { /* ha nem megy, marad az időzített gyűjtés */ }
+        };
+
+        if (target) { hook(target); }
+        try {
+            Object.defineProperty(W, "Crafting", {
+                configurable: true,
+                enumerable: true,
+                get() { return target; },
+                set(v) { target = v; hook(v); }
+            });
+            W.__mkGuard = true;
+        } catch (e) { /* ha nem megy, marad az időzített gyűjtés */ }
+    }
+    guardCrafting();
+
     function watchCrafting() {
+        guardCrafting();
         /* az addRecipe hívásait is elkapjuk, így a legkorábbi állapotot látjuk */
         const C = game().Crafting;
         if (C && typeof C.addRecipe === "function" && !C.__mkWrapped) {
