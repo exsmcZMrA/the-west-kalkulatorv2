@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      1.7-teszt
+// @version      1.8-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -136,22 +136,6 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         document.body.appendChild(b);
     }
 
-    /* a kirajzolt avatar HTML-je, abszolút képcímekkel.
-       A rétegek két közös képlapról vágódnak ki, ezért nem sok kép tölt be. */
-    function readAvatar() {
-        /* a 72x72-es (small) avatart keressük — abban minden réteg a helyén van */
-        const box = document.querySelector(".avatar_small") ||
-                    document.querySelector(".avatar_pic .avatar_small") ||
-                    document.querySelector(".avatar_pic");
-        if (!box) return null;
-        let html = box.innerHTML;
-        if (!html || html.length > 8000) return null;
-        const base = location.origin;
-        html = html.replace(/(src=["'])\/(images\/)/g, "$1" + base + "/$2")
-                   .replace(/url\((["']?)\/(images\/)/g, "url($1" + base + "/$2");
-        return html;
-    }
-
     /* karakteradatok: név, mesterség, szint */
     function readCharacter() {
         const C = game().Character;
@@ -260,8 +244,6 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         if (k) q += "&k=" + encodeURIComponent(k);
         const t = readLearned();
         if (t) q += "&t=" + t.join(",");
-        const av = readAvatar();
-        if (av) q += "&a=" + encodeURIComponent(av);
         const url = CALC_URL.replace(/\/+$/, "/") + "#" + q;
         try {
             GM_openInTab(url, { active: true, insert: true });

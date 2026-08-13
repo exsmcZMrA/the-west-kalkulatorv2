@@ -75,13 +75,6 @@ button,input{font-family:inherit;color:inherit;font-size:inherit}
   border-radius:6px;padding:8px 10px;margin-bottom:10px}
 .charbar b{font-size:14.5px;line-height:1.15}
 .charbar small{display:block;font-family:"Space Mono",monospace;font-size:10px;color:var(--dim)}
-/* a játék 72x72-es avatarja: a belső rétegszerkezethez nem nyúlunk,
-   csak az egészet kicsinyítjük 44 képpontra */
-.charbar .avatarbox{width:44px;height:44px;flex:0 0 auto;overflow:hidden;
-  border-radius:6px;border:1px solid var(--line);background:var(--raised);
-  display:block;position:relative}
-.charbar .avatarbox .avatarinner{width:72px;height:72px;position:absolute;left:0;top:0;
-  transform:scale(0.6111);transform-origin:0 0}
 .charbar .badge{width:26px;height:26px;border-radius:50%;background:var(--raised);
   display:grid;place-items:center;font-family:"Space Mono",monospace;font-size:11px;color:var(--brass);
   border:1px solid var(--line);flex:0 0 auto}
@@ -1210,7 +1203,7 @@ const RECIPES = [
 const $ = id => document.getElementById(id);
 const STORE = "twcalc.v2";
 let stock = {}, names = Object.assign({}, BASE_NAMES), levels = {};
-let char = null, learned = null, avatar = null;   /* a játékból beolvasott karakter, receptjei, képe */
+let char = null, learned = null;   /* a játékból beolvasott karakter és megtanult receptjei */
 let recipeMap = new Map(), baseIds = [];
 let sel = { prof:1, recipe:null, qty:1, mode:"tree", targets:[] };
 let plan = null, needOrder = [];
@@ -1248,7 +1241,7 @@ function save(){
       const custom = {};
       Object.keys(names).forEach(k => { if(names[k] !== BASE_NAMES[k]) custom[k] = names[k]; });
       localStorage.setItem(STORE, JSON.stringify({
-        stock, names:custom, levels, char, learned, avatar, theme:document.documentElement.dataset.theme,
+        stock, names:custom, levels, char, learned, theme:document.documentElement.dataset.theme,
         icons:document.documentElement.dataset.icons === "0" ? 0 : 1,
         recipe:sel.recipe, prof:sel.prof, qty:sel.qty, mode:sel.mode, targets:sel.targets
       }));
@@ -1264,7 +1257,6 @@ function load(){
     if(p.levels) levels = p.levels;
     if(p.char) char = p.char;
     if(Array.isArray(p.learned)) learned = p.learned;
-    if(typeof p.avatar === "string") avatar = p.avatar;
     if(p.theme) document.documentElement.dataset.theme = p.theme;
     if(p.icons === 0) document.documentElement.dataset.icons = "0";
     if(p.prof) sel.prof = p.prof;
@@ -1426,10 +1418,8 @@ function renderChar(){
   if(!char){ bar.hidden = true; wrap.hidden = true; return; }
   bar.hidden = false; wrap.hidden = !learned;
   bar.className = "charbar";
-  bar.innerHTML = (avatar
-      ? `<span class="avatarbox"><span class="avatarinner">${avatar}</span></span>`
-      : `<span class="badge">${char.name.slice(0,2).toUpperCase()}</span>`)
-    + `<span><b>${char.name}</b><small>${profOf(char.prof)} ${char.skill}${
+  bar.innerHTML = `<span class="badge">${char.name.slice(0,2).toUpperCase()}</span>
+    <span><b>${char.name}</b><small>${profOf(char.prof)} ${char.skill}${
       learned ? ` · ${learned.length} recept` : ""}</small></span>`;
   const t = $("mineTxt");
   if(t) t.textContent = "csak amihez megvan a receptem";
@@ -1868,11 +1858,6 @@ function importFromHash(){
       sel.prof = pid;
       msg.push(`${char.name} · ${profOf(pid)} ${char.skill}`);
     }
-  }
-  if(parts.a){
-    /* csak a játék saját képlapjairól engedünk képet, semmi mást */
-    const ok = /^(?:(?!<script|onerror|onload|javascript:)[\s\S])*$/i.test(parts.a);
-    avatar = ok ? parts.a : null;
   }
   if(parts.t !== undefined){
     learned = parts.t ? parts.t.split(",").map(x => x + "000").filter(x => recipeMap.has(x)) : null;
