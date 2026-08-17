@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      2.0-teszt
+// @version      2.1-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -159,10 +159,13 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
             if (v === "0px" && AV_KEEP_ZERO.indexOf(k) < 0) return;
             if (k === "background-image")
                 v = v.replace(/url\((["']?)\//g, "url($1" + base + "/");
+            /* az idézőjel szétvágná a style attribútumot — url("…") helyett url(…) */
+            v = v.replace(/["']/g, "");
             out.push(k + ":" + v);
         });
         const tag = node.tagName.toLowerCase();
-        let attrs = ` style="${out.join(";")}"`;
+        const cls = (node.className || "").replace(/["<>]/g, "");
+        let attrs = (cls ? ` class="${cls}"` : "") + ` style="${out.join(";")}"`;
         if (tag === "img") {
             let src = node.getAttribute("src") || "";
             if (src.startsWith("/")) src = base + src;
