@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      1.9-teszt
+// @version      2.0-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -142,17 +142,23 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
        Így a kalkulátorban nem kell semmilyen idegen kódot futtatni. */
     const AV_PROPS = ["position","left","top","width","height","overflow",
                       "background-image","background-position-x","background-position-y",
-                      "background-repeat","z-index","display","max-width"];
+                      "background-size","background-repeat","background-color",
+                      "z-index","display","max-width"];
+
+    /* mely tulajdonságoknál számít a 0px is */
+    const AV_KEEP_ZERO = ["left","top","background-position-x","background-position-y"];
 
     function inlineStyles(node, base) {
         const cs = getComputedStyle(node);
         const out = [];
         AV_PROPS.forEach(k => {
             let v = cs.getPropertyValue(k);
-            if (!v || v === "none" || v === "auto" || v === "normal" ||
-                v === "static" || v === "visible" || v === "repeat" ||
-                v === "0px" && k !== "left" && k !== "top") return;
-            if (k === "background-image") v = v.replace(/url\((["']?)\//g, "url($1" + base + "/");
+            if (!v) return;
+            if (v === "none" || v === "auto" || v === "normal" || v === "static" ||
+                v === "visible" || v === "rgba(0, 0, 0, 0)") return;
+            if (v === "0px" && AV_KEEP_ZERO.indexOf(k) < 0) return;
+            if (k === "background-image")
+                v = v.replace(/url\((["']?)\//g, "url($1" + base + "/");
             out.push(k + ":" + v);
         });
         const tag = node.tagName.toLowerCase();
