@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mesterség-kalkulátor — raktár import (TESZT)
 // @namespace    the-west-kalkulator-teszt
-// @version      2.1-teszt
+// @version      2.2-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -22,6 +22,8 @@
 // @grant        GM_setClipboard
 // @grant        GM_openInTab
 // @run-at       document-idle
+// @updateURL    https://exsmczmra.github.io/the-west-kalkulatorv2/the-west-import.user.js
+// @downloadURL  https://exsmczmra.github.io/the-west-kalkulatorv2/the-west-import.user.js
 // @priority     100
 // ==/UserScript==
 
@@ -130,10 +132,44 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
 
         b.addEventListener("click", () => {
             if (moved) { moved = false; return; }   /* húzás volt, nem kattintás */
+            if (b.dataset.update) {
+                if (confirm("Új szkriptverzió érhető el. Megnyitod a telepítéshez?")) {
+                    try { GM_openInTab(b.dataset.update, { active: true }); }
+                    catch (e) { window.open(b.dataset.update, "_blank"); }
+                    return;
+                }
+                delete b.dataset.update;
+            }
             sendInventory(b);
         });
 
+        checkScriptUpdate(b);
+
         document.body.appendChild(b);
+    }
+
+    /* ---- frissítésfigyelés ----
+       A Tampermonkey ritkán keres frissítést, ezért magunk is megnézzük:
+       a fent lévő fájl @version sorát hasonlítjuk a futóéhoz. */
+    const MY_VER = "2.2-teszt";
+
+    function checkScriptUpdate(btn) {
+        const url = CALC_URL.replace(/\/+$/, "/") + "the-west-import.user.js?v=" + Date.now();
+        fetch(url, { cache: "no-store" })
+            .then(r => r.text())
+            .then(txt => {
+                const m = txt.match(/@version\s+([^\s]+)/);
+                if (!m || m[1] === MY_VER) return;
+                btn.style.borderColor = "#7fb08a";
+                btn.title = "Új szkriptverzió érhető el: " + m[1] +
+                            " — kattints ide a telepítéshez (a futó: " + MY_VER + ")";
+                const dot = document.createElement("span");
+                dot.textContent = "•";
+                dot.style.cssText = "position:absolute;right:-3px;top:-6px;color:#7fb08a;font-size:20px;line-height:1";
+                btn.appendChild(dot);
+                btn.dataset.update = url.split("?")[0];
+            })
+            .catch(() => { /* nem baj, ha nem megy */ });
     }
 
     /* ---- avatar ----
