@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Mesterség-kalkulátor — raktár import (TESZT)
-// @namespace    the-west-kalkulator-teszt
-// @version      1.8-teszt
+// @name         Mesterség-kalkulátor — raktár import
+// @namespace    the-west-kalkulator
+// @version      1.3
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -21,7 +21,7 @@
 // @match        https://*.the-west.se/game.php*
 // @grant        GM_setClipboard
 // @grant        GM_openInTab
-// @run-at       document-start
+// @run-at       document-idle
 // @priority     100
 // ==/UserScript==
 
@@ -29,7 +29,7 @@
    A kalkulátor címe. Csak akkor kell hozzányúlni, ha a repó neve vagy a
    GitHub Pages beállítása változik.
    ======================================================================= */
-const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
+const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymanaged/";
 
 (function () {
     "use strict";
@@ -72,15 +72,15 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
         return out;
     }
 
-    const POS_KEY = "mk-import-pos-teszt";
+    const POS_KEY = "mk-import-pos";
 
     function addButton() {
         if (!document.body) { setTimeout(addButton, 200); return; }
-        if (document.getElementById("mk-import-btn-teszt")) return;
+        if (document.getElementById("mk-import-btn")) return;
         const b = document.createElement("div");
-        b.id = "mk-import-btn-teszt";
-        b.textContent = "🧪";
-        b.title = "TESZT — raktár küldése a v2 kalkulátorba";
+        b.id = "mk-import-btn";
+        b.textContent = "📦";
+        b.title = "Raktárkészlet küldése a mesterség-kalkulátorba";
 
         let pos = { right: 2, top: 300 };
         try {
@@ -90,7 +90,7 @@ const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
 
         b.style.cssText = [
             "position:fixed", "z-index:99999",
-            "right:" + pos.right + "px", "top:" + (pos.top + 80) + "px",
+            "right:" + pos.right + "px", "top:" + pos.top + "px",
             "width:30px", "height:30px", "line-height:30px", "text-align:center",
             "background:#2f261d", "border:1px solid #e0a844", "border-radius:5px",
             "cursor:pointer", "font-size:16px", "user-select:none",
