@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Mesterség-kalkulátor — raktár import
-// @namespace    the-west-kalkulator
-// @version      1.3
+// @name         Mesterség-kalkulátor — raktár import (TESZT)
+// @namespace    the-west-kalkulator-teszt
+// @version      1.9-teszt
 // @description  Egy gomb a játékban, ami átküldi a raktárkészletet a mesterség-kalkulátorba.
 // @author       —
 // @match        https://*.the-west.hu/game.php*
@@ -29,7 +29,7 @@
    A kalkulátor címe. Csak akkor kell hozzányúlni, ha a repó neve vagy a
    GitHub Pages beállítása változik.
    ======================================================================= */
-const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymanaged/";
+const CALC_URL = "https://exsmczmra.github.io/the-west-kalkulatorv2/";
 
 (function () {
     "use strict";
@@ -72,15 +72,15 @@ const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymana
         return out;
     }
 
-    const POS_KEY = "mk-import-pos";
+    const POS_KEY = "mk-import-pos-teszt";
 
     function addButton() {
         if (!document.body) { setTimeout(addButton, 200); return; }
-        if (document.getElementById("mk-import-btn")) return;
+        if (document.getElementById("mk-import-btn-teszt")) return;
         const b = document.createElement("div");
-        b.id = "mk-import-btn";
-        b.textContent = "📦";
-        b.title = "Raktárkészlet küldése a mesterség-kalkulátorba";
+        b.id = "mk-import-btn-teszt";
+        b.textContent = "🧪";
+        b.title = "TESZT — raktár küldése a v2 kalkulátorba";
 
         let pos = { right: 2, top: 300 };
         try {
@@ -90,7 +90,7 @@ const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymana
 
         b.style.cssText = [
             "position:fixed", "z-index:99999",
-            "right:" + pos.right + "px", "top:" + pos.top + "px",
+            "right:" + pos.right + "px", "top:" + (pos.top + 80) + "px",
             "width:30px", "height:30px", "line-height:30px", "text-align:center",
             "background:#2f261d", "border:1px solid #e0a844", "border-radius:5px",
             "cursor:pointer", "font-size:16px", "user-select:none",
@@ -134,6 +134,57 @@ const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymana
         });
 
         document.body.appendChild(b);
+    }
+
+    /* ---- avatar ----
+       A játék saját rajzolójával (tw2widget.avatarPicture) kirajzoltatjuk egy rejtett
+       dobozba, majd a kész szerkezetet a lényeges stílusokkal együtt kimentjük.
+       Így a kalkulátorban nem kell semmilyen idegen kódot futtatni. */
+    const AV_PROPS = ["position","left","top","width","height","overflow",
+                      "background-image","background-position-x","background-position-y",
+                      "background-repeat","z-index","display","max-width"];
+
+    function inlineStyles(node, base) {
+        const cs = getComputedStyle(node);
+        const out = [];
+        AV_PROPS.forEach(k => {
+            let v = cs.getPropertyValue(k);
+            if (!v || v === "none" || v === "auto" || v === "normal" ||
+                v === "static" || v === "visible" || v === "repeat" ||
+                v === "0px" && k !== "left" && k !== "top") return;
+            if (k === "background-image") v = v.replace(/url\((["']?)\//g, "url($1" + base + "/");
+            out.push(k + ":" + v);
+        });
+        const tag = node.tagName.toLowerCase();
+        let attrs = ` style="${out.join(";")}"`;
+        if (tag === "img") {
+            let src = node.getAttribute("src") || "";
+            if (src.startsWith("/")) src = base + src;
+            attrs += ` src="${src}" alt=""`;
+        }
+        const kids = [...node.children].map(c => inlineStyles(c, base)).join("");
+        return `<${tag}${attrs}>${kids}</${tag}>`;
+    }
+
+    async function readAvatar() {
+        const W = game();
+        const tw = W.tw2widget, C = W.Character;
+        if (!tw || typeof tw.avatarPicture !== "function" || !C || !C.avatarConfig) return null;
+        const host = document.createElement("div");
+        host.style.cssText = "position:absolute;left:-9999px;top:0;visibility:hidden";
+        document.body.appendChild(host);
+        try {
+            await tw.avatarPicture(host, "small", C.avatarConfig);
+            await new Promise(r => setTimeout(r, 400));      /* várunk a képekre */
+            const box = host.firstElementChild;
+            if (!box) throw new Error("üres");
+            const html = inlineStyles(box, location.origin);
+            return html.length < 12000 ? html : null;
+        } catch (e) {
+            return null;
+        } finally {
+            host.remove();
+        }
     }
 
     /* karakteradatok: név, mesterség, szint */
@@ -234,7 +285,7 @@ const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymana
         return learnedSet.size ? [...learnedSet] : null;
     }
 
-    function sendInventory(b) {
+    async function sendInventory(b) {
         const data = readInventory();
         if (!data.length) { flash(b, "?"); return; }
         const payload = data.join(",");
@@ -244,6 +295,10 @@ const CALC_URL = "https://kiszamolja.github.io/the-west-kalkulator-inventorymana
         if (k) q += "&k=" + encodeURIComponent(k);
         const t = readLearned();
         if (t) q += "&t=" + t.join(",");
+        try {
+            const av = await readAvatar();
+            if (av) q += "&av=" + encodeURIComponent(av);
+        } catch (e) { /* kép nélkül is megy tovább */ }
         const url = CALC_URL.replace(/\/+$/, "/") + "#" + q;
         try {
             GM_openInTab(url, { active: true, insert: true });
